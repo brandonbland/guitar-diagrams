@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Windows</title>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	<style>
+		body {
+			//margin: 0px;
+			background-color: gainsboro;
+		}
+		
+		canvas {
+			background-color: white;
+			
+		}
+		
+		.canvas {
+			margin-right: 10px;
+		}
+		
+		h1, h2 {
+			margin: 5px;
+		}
+	</style>
+	
+	
+	
+  </head>
+  <body>
+  
+  <h1>Fretboard Diagram Generator </h1>
+		<div class="canvas">
+			<canvas id="fretboard" width="1150" height="300">Canvas not supported</canvas>
+		</div>
+		
+		
+		<div>
+			<p><span id="snglClick"></span></p>
+			
+			
+			<input type="text" id="theTitle" onfocus="clearInput(this)"></input>
+			<button onClick="showTitle()">Show Title</button><br />
+			
+			<h2>Current mode: <span id="mode">Plot</span> <button onClick="switchMode()">Switch Modes</button></h2>
+			<button onClick="reset();">Reset Canvas</button><br />
+			<p id="variable"></p>
+		</div>
+		
+		<script>
+			
+			var ctx = document.getElementById("fretboard").getContext("2d");
+			
+			//Variables for string center loop
+			var stringCenter;
+			var fretCenter = [];
+			
+			
+			
+			//Position constructor
+			function position(x, y, state) {
+				this.centerX = x;
+				this.centerY = y;
+				this.state = state;
+			}
+			
+			//Loop to assign fretCenter X position for each fret
+			fretCenter[0] = 25;
+			stringCenter = 70;
+			for (var q = 1; q < 19; q ++) {
+				fretCenter[q] = stringCenter;
+				stringCenter += 60;
+			}
+			
+			
+			
+			//Define positions
+			var string1FretOpen = new position(30,60,"");
+			var string2FretOpen = new position(30,100,"");
+			var string3FretOpen = new position(30,140,"");
+			var string4FretOpen = new position(30,180,"");
+			var string5FretOpen = new position(30,220,"");
+			var string6FretOpen = new position(30,260,"");
+			
+			var string1Fret1 = new position(fretCenter[1],60,"");
+			var string2Fret1 = new position(fretCenter[1],100,"");
+			var string3Fret1 = new position(fretCenter[1],140,"");
+			var string4Fret1 = new position(fretCenter[1],180,"");
+			var string5Fret1 = new position(fretCenter[1],220,"");
+			var string6Fret1 = new position(fretCenter[1],260,"");
+			
+			var string1Fret2 = new position(fretCenter[2],60,"");
+			var string2Fret2 = new position(fretCenter[2],100,"");
+			var string3Fret2 = new position(fretCenter[2],140,"");
+			var string4Fret2 = new position(fretCenter[2],180,"");
+			var string5Fret2 = new position(fretCenter[2],220,"");
+			var string6Fret2 = new position(fretCenter[2],260,"");
+			
+			var string1Fret3 = new position(fretCenter[3],60,"");
+			var string2Fret3 = new position(fretCenter[3],100,"");
+			var string3Fret3 = new position(fretCenter[3],140,"");
+			var string4Fret3 = new position(fretCenter[3],180,"");
+			var string5Fret3 = new position(fretCenter[3],220,"");
+			var string6Fret3 = new position(fretCenter[3],260,"");
+			
+			var string1Fret4 = new position(fretCenter[4],60,"");
+			var string2Fret4 = new position(fretCenter[4],100,"");
+			var string3Fret4 = new position(fretCenter[4],140,"");
+			var string4Fret4 = new position(fretCenter[4],180,"");
+			var string5Fret4 = new position(fretCenter[4],220,"");
+			var string6Fret4 = new position(fretCenter[4],260,"");
+			
+			var string1Fret5 = new position(fretCenter[5],60,"");
+			var string2Fret5 = new position(fretCenter[5],100,"");
+			var string3Fret5 = new position(fretCenter[5],140,"");
+			var string4Fret5 = new position(fretCenter[5],180,"");
+			var string5Fret5 = new position(fretCenter[5],220,"");
+			var string6Fret5 = new position(fretCenter[5],260,"");
+			
+			var string1Fret6 = new position(fretCenter[6],60,"");
+			var string2Fret6 = new position(fretCenter[6],100,"");
+			var string3Fret6 = new position(fretCenter[6],140,"");
+			var string4Fret6 = new position(fretCenter[6],180,"");
+			var string5Fret6 = new position(fretCenter[6],220,"");
+			var string6Fret6 = new position(fretCenter[6],260,"");
+			
+			var string1Fret7 = new position(fretCenter[7],60,"");
+			var string2Fret7 = new position(fretCenter[7],100,"");
+			var string3Fret7 = new position(fretCenter[7],140,"");
+			var string4Fret7 = new position(fretCenter[7],180,"");
+			var string5Fret7 = new position(fretCenter[7],220,"");
+			var string6Fret7 = new position(fretCenter[7],260,"");
+			
+			var string1Fret8 = new position(fretCenter[8],60,"");
+			var string2Fret8 = new position(fretCenter[8],100,"");
+			var string3Fret8 = new position(fretCenter[8],140,"");
+			var string4Fret8 = new position(fretCenter[8],180,"");
+			var string5Fret8 = new position(fretCenter[8],220,"");
+			var string6Fret8 = new position(fretCenter[8],260,"");
+			
+			var string1Fret9 = new position(fretCenter[9],60,"");
+			var string2Fret9 = new position(fretCenter[9],100,"");
+			var string3Fret9 = new position(fretCenter[9],140,"");
+			var string4Fret9 = new position(fretCenter[9],180,"");
+			var string5Fret9 = new position(fretCenter[9],220,"");
+			var string6Fret9 = new position(fretCenter[9],260,"");
+			
+			var string1Fret10 = new position(fretCenter[10],60,"");
+			var string2Fret10 = new position(fretCenter[10],100,"");
+			var string3Fret10 = new position(fretCenter[10],140,"");
+			var string4Fret10 = new position(fretCenter[10],180,"");
+			var string5Fret10 = new position(fretCenter[10],220,"");
+			var string6Fret10 = new position(fretCenter[10],260,"");
+			
+			var string1Fret11 = new position(fretCenter[11],60,"");
+			var string2Fret11 = new position(fretCenter[11],100,"");
+			var string3Fret11 = new position(fretCenter[11],140,"");
+			var string4Fret11 = new position(fretCenter[11],180,"");
+			var string5Fret11 = new position(fretCenter[11],220,"");
+			var string6Fret11 = new position(fretCenter[11],260,"");
+			
+			var string1Fret12 = new position(fretCenter[12],60,"");
+			var string2Fret12 = new position(fretCenter[12],100,"");
+			var string3Fret12 = new position(fretCenter[12],140,"");
+			var string4Fret12 = new position(fretCenter[12],180,"");
+			var string5Fret12 = new position(fretCenter[12],220,"");
+			var string6Fret12 = new position(fretCenter[12],260,"");
+			
+			var string1Fret13 = new position(fretCenter[13],60,"");
+			var string2Fret13 = new position(fretCenter[13],100,"");
+			var string3Fret13 = new position(fretCenter[13],140,"");
+			var string4Fret13 = new position(fretCenter[13],180,"");
+			var string5Fret13 = new position(fretCenter[13],220,"");
+			var string6Fret13 = new position(fretCenter[13],260,"");
+			
+			var string1Fret14 = new position(fretCenter[14],60,"");
+			var string2Fret14 = new position(fretCenter[14],100,"");
+			var string3Fret14 = new position(fretCenter[14],140,"");
+			var string4Fret14 = new position(fretCenter[14],180,"");
+			var string5Fret14 = new position(fretCenter[14],220,"");
+			var string6Fret14 = new position(fretCenter[14],260,"");
+			
+			var string1Fret15 = new position(fretCenter[15],60,"");
+			var string2Fret15 = new position(fretCenter[15],100,"");
+			var string3Fret15 = new position(fretCenter[15],140,"");
+			var string4Fret15 = new position(fretCenter[15],180,"");
+			var string5Fret15 = new position(fretCenter[15],220,"");
+			var string6Fret15 = new position(fretCenter[15],260,"");
+			
+			var string1Fret16 = new position(fretCenter[16],60,"");
+			var string2Fret16 = new position(fretCenter[16],100,"");
+			var string3Fret16 = new position(fretCenter[16],140,"");
+			var string4Fret16 = new position(fretCenter[16],180,"");
+			var string5Fret16 = new position(fretCenter[16],220,"");
+			var string6Fret16 = new position(fretCenter[16],260,"");
+			
+			var string1Fret17 = new position(fretCenter[17],60,"");
+			var string2Fret17 = new position(fretCenter[17],100,"");
+			var string3Fret17 = new position(fretCenter[17],140,"");
+			var string4Fret17 = new position(fretCenter[17],180,"");
+			var string5Fret17 = new position(fretCenter[17],220,"");
+			var string6Fret17 = new position(fretCenter[17],260,"");
+			
+			var string1Fret18 = new position(fretCenter[18],60,"");
+			var string2Fret18 = new position(fretCenter[18],100,"");
+			var string3Fret18 = new position(fretCenter[18],140,"");
+			var string4Fret18 = new position(fretCenter[18],180,"");
+			var string5Fret18 = new position(fretCenter[18],220,"");
+			var string6Fret18 = new position(fretCenter[18],260,"");
+			
+			
+			reset(); //Draws lines, resets all states to ""
+			
+			//function to draw lines, resets all position states to ""
+			function reset() {
+			
+				//variables for frets/strings
+				var fretX = 40; //Defines starting point for left side of diagram
+				var stringY = 60;
+				
+				
+				//Draw white background
+				ctx.fillStyle="white";
+				ctx.fillRect(0,0,1150,300);
+				
+				//Set up path
+				ctx.beginPath();
+				ctx.lineWidth="2";
+				ctx.strokeStyle="black";
+				
+				//Loop for strings
+				for (var i = 0; i < 6; i ++) {
+					ctx.moveTo(40,stringY);
+					ctx.lineTo(1120,stringY);
+					stringY += 40; //Distance between strings
+				}
+				
+				//Loop for frets
+				for (var n = 0; n < 19; n ++) {
+					ctx.moveTo(fretX,60);
+					ctx.lineTo(fretX,260);
+					fretX += 60; //Distance between frets
+					
+					//Writes fret numbers
+					if (n < 18) {
+						ctx.fillStyle = "black";
+						ctx.textAlign = "center";
+						ctx.font="20px Times";
+						ctx.fillText(n + 1, fretX - 30, 295);
+						ctx.stroke();
+						ctx.closePath();
+					}
+				}
+				
+				ctx.closePath();
+				ctx.stroke();
+				fretX = 40;
+				
+				//Loop for dots on fretboard
+				for (var n = 0; n < 18; n ++) {
+					ctx.moveTo(fretX,60);
+					ctx.lineTo(fretX,260);
+					fretX += 60; //Distance between frets
+					
+					if (n == 2 || n == 4 || n == 6 || n == 8 || n == 14 || n == 16) {
+						ctx.beginPath();
+						ctx.fillStyle = "#C0C0C0";
+						ctx.arc(fretX-30,160,12,0,2 * Math.PI);
+						ctx.fill();
+						ctx.fillStyle = "black";
+						ctx.closePath();
+						
+					}
+					
+					else if (n == 11) {
+						ctx.beginPath();
+						ctx.fillStyle = "#C0C0C0";
+						ctx.arc(fretX-30,115,12,0,2 * Math.PI);
+						ctx.arc(fretX-30,205,12,0,2 * Math.PI);
+						ctx.fill();
+						ctx.fillStyle = "black";
+						ctx.closePath();
+						
+					}
+				}
+				
+				//Draw nut
+				ctx.beginPath();
+				ctx.lineWidth="6";
+				ctx.moveTo(40,58);
+				ctx.lineTo(40,262);
+				ctx.closePath(); 
+				ctx.stroke(); 
+				
+				//Reset all posotion states
+				string1FretOpen.state = ""; 
+				string2FretOpen.state = ""; 
+				string3FretOpen.state = ""; 
+				string4FretOpen.state = ""; 
+				string5FretOpen.state = ""; 
+				string6FretOpen.state = ""; 
+				
+				string1Fret1.state = ""; 
+				string2Fret1.state = ""; 
+				string3Fret1.state = ""; 
+				string4Fret1.state = ""; 
+				string5Fret1.state = ""; 
+				string6Fret1.state = ""; 
+
+				string1Fret2.state = ""; 
+				string2Fret2.state = ""; 
+				string3Fret2.state = ""; 
+				string4Fret2.state = ""; 
+				string5Fret2.state = ""; 
+				string6Fret2.state = ""; 
+
+				string1Fret3.state = ""; 
+				string2Fret3.state = ""; 
+				string3Fret3.state = ""; 
+				string4Fret3.state = ""; 
+				string5Fret3.state = ""; 
+				string6Fret3.state = ""; 
+
+				string1Fret4.state = ""; 
+				string2Fret4.state = ""; 
+				string3Fret4.state = ""; 
+				string4Fret4.state = ""; 
+				string5Fret4.state = ""; 
+				string6Fret4.state = ""; 
+
+				string1Fret5.state = ""; 
+				string2Fret5.state = ""; 
+				string3Fret5.state = ""; 
+				string4Fret5.state = ""; 
+				string5Fret5.state = ""; 
+				string6Fret5.state = ""; 
+
+				string1Fret6.state = ""; 
+				string2Fret6.state = ""; 
+				string3Fret6.state = ""; 
+				string4Fret6.state = ""; 
+				string5Fret6.state = ""; 
+				string6Fret6.state = ""; 
+
+				string1Fret7.state = ""; 
+				string2Fret7.state = ""; 
+				string3Fret7.state = ""; 
+				string4Fret7.state = ""; 
+				string5Fret7.state = ""; 
+				string6Fret7.state = ""; 
+
+				string1Fret8.state = ""; 
+				string2Fret8.state = ""; 
+				string3Fret8.state = ""; 
+				string4Fret8.state = ""; 
+				string5Fret8.state = ""; 
+				string6Fret8.state = ""; 
+
+				string1Fret9.state = ""; 
+				string2Fret9.state = ""; 
+				string3Fret9.state = ""; 
+				string4Fret9.state = ""; 
+				string5Fret9.state = ""; 
+				string6Fret9.state = ""; 
+
+				string1Fret10.state = "";
+				string2Fret10.state = "";
+				string3Fret10.state = "";
+				string4Fret10.state = "";
+				string5Fret10.state = "";
+				string6Fret10.state = "";
+
+				string1Fret11.state = "";
+				string2Fret11.state = "";
+				string3Fret11.state = "";
+				string4Fret11.state = "";
+				string5Fret11.state = "";
+				string6Fret11.state = "";
+
+				string1Fret12.state = "";
+				string2Fret12.state = "";
+				string3Fret12.state = "";
+				string4Fret12.state = "";
+				string5Fret12.state = "";
+				string6Fret12.state = "";
+
+				string1Fret13.state = "";
+				string2Fret13.state = "";
+				string3Fret13.state = "";
+				string4Fret13.state = "";
+				string5Fret13.state = "";
+				string6Fret13.state = "";
+
+				string1Fret14.state = "";
+				string2Fret14.state = "";
+				string3Fret14.state = "";
+				string4Fret14.state = "";
+				string5Fret14.state = "";
+				string6Fret14.state = "";
+
+				string1Fret15.state = "";
+				string2Fret15.state = "";
+				string3Fret15.state = "";
+				string4Fret15.state = "";
+				string5Fret15.state = "";
+				string6Fret15.state = "";
+				
+				string1Fret16.state = "";
+				string2Fret16.state = "";
+				string3Fret16.state = "";
+				string4Fret16.state = "";
+				string5Fret16.state = "";
+				string6Fret16.state = "";
+				
+				string1Fret17.state = "";
+				string2Fret17.state = "";
+				string3Fret17.state = "";
+				string4Fret17.state = "";
+				string5Fret17.state = "";
+				string6Fret17.state = "";
+				
+				string1Fret18.state = "";
+				string2Fret18.state = "";
+				string3Fret18.state = "";
+				string4Fret18.state = "";
+				string5Fret18.state = "";
+				string6Fret18.state = "";
+				
+				document.getElementById("theTitle").value = "Enter Title";
+				document.getElementById("mode").innerHTML = "Plot";
+			}
+			
+			//Switch Modes
+			function switchMode() {
+				
+				var mode = document.getElementById("mode").innerHTML;
+				
+				if (mode === "Plot") {
+					mode = "Text"
+					document.getElementById("mode").innerHTML = mode;
+				}
+				else if (mode === "Text") {
+					mode = "Plot"
+					document.getElementById("mode").innerHTML = mode;
+				}
+			}
+			
+			//Event listener to detect single clicks on canvas
+			ctx.canvas.addEventListener("click", function(event) {
+				
+				var mouseX, mouseY, mode;
+				
+				mode = document.getElementById("mode").innerHTML;
+				
+				//Determines mouse coordinates on the canvas
+				mouseX = event.clientX - ctx.canvas.offsetLeft;
+				mouseY = event.clientY - ctx.canvas.offsetTop;
+				
+				if (mode === "Plot") {
+					determinePosition(mouseX, mouseY);
+				}
+				else if (mode === "Text") {
+					determinePositionForText(mouseX, mouseY);
+				}
+				
+				//Shows click coordinates
+				//document.getElementById("snglClick").innerHTML = mouseX + " | " + mouseY;
+				
+			}, false);
+			
+			//Determine position for plotting
+			function determinePosition(x,y) {
+				
+				//Array for string centers
+				var stringTop = [0, 50, 90, 130, 170, 210, 240];
+				var stringBot = [0, 70, 110, 150, 190, 230, 260];
+				
+				//if string string 1
+				if (y > stringTop[1] && y < stringBot[1]) {
+					
+					if (x > string1Fret1.centerX - 10 && x < string1Fret1.centerX + 10) {
+						string1Fret1.state = drawShapes(string1Fret1.centerX, string1Fret1.centerY, string1Fret1.state);
+					}
+					else if (x > string1Fret2.centerX - 10 && x < string1Fret2.centerX + 10) {
+						string1Fret2.state = drawShapes(string1Fret2.centerX, string1Fret2.centerY, string1Fret2.state);
+					}
+					else if (x > string1Fret3.centerX - 10 && x < string1Fret3.centerX + 10) {
+						string1Fret3.state = drawShapes(string1Fret3.centerX, string1Fret3.centerY, string1Fret3.state);
+					}
+					else if (x > string1Fret4.centerX - 10 && x < string1Fret4.centerX + 10) {
+						string1Fret4.state = drawShapes(string1Fret4.centerX, string1Fret4.centerY, string1Fret4.state);
+					}
+					else if (x > string1Fret5.centerX - 10 && x < string1Fret5.centerX + 10) {
+						string1Fret5.state = drawShapes(string1Fret5.centerX, string1Fret5.centerY, string1Fret5.state);
+					}
+					else if (x > string1Fret6.centerX - 10 && x < string1Fret6.centerX + 10) {
+						string1Fret6.state = drawShapes(string1Fret6.centerX, string1Fret6.centerY, string1Fret6.state);
+					}
+					else if (x > string1Fret7.centerX - 10 && x < string1Fret7.centerX + 10) {
+						string1Fret7.state = drawShapes(string1Fret7.centerX, string1Fret7.centerY, string1Fret7.state);
+					}
+					else if (x > string1Fret8.centerX - 10 && x < string1Fret8.centerX + 10) {
+						string1Fret8.state = drawShapes(string1Fret8.centerX, string1Fret8.centerY, string1Fret8.state);
+					}
+					else if (x > string1Fret9.centerX - 10 && x < string1Fret9.centerX + 10) {
+						string1Fret9.state = drawShapes(string1Fret9.centerX, string1Fret9.centerY, string1Fret9.state);
+					}
+					else if (x > string1Fret10.centerX - 10 && x < string1Fret10.centerX + 10) {
+						string1Fret10.state = drawShapes(string1Fret10.centerX, string1Fret10.centerY, string1Fret10.state);
+					}
+					else if (x > string1Fret11.centerX - 10 && x < string1Fret11.centerX + 10) {
+						string1Fret11.state = drawShapes(string1Fret11.centerX, string1Fret11.centerY, string1Fret11.state);
+					}
+					else if (x > string1Fret12.centerX - 10 && x < string1Fret12.centerX + 10) {
+						string1Fret12.state = drawShapes(string1Fret12.centerX, string1Fret12.centerY, string1Fret12.state);
+					}
+					else if (x > string1Fret13.centerX - 10 && x < string1Fret13.centerX + 10) {
+						string1Fret13.state = drawShapes(string1Fret13.centerX, string1Fret13.centerY, string1Fret13.state);
+					}
+					else if (x > string1Fret14.centerX - 10 && x < string1Fret14.centerX + 10) {
+						string1Fret14.state = drawShapes(string1Fret14.centerX, string1Fret14.centerY, string1Fret14.state);
+					}
+					else if (x > string1Fret15.centerX - 10 && x < string1Fret15.centerX + 10) {
+						string1Fret15.state = drawShapes(string1Fret15.centerX, string1Fret15.centerY, string1Fret15.state);
+					}
+					else if (x > string1Fret16.centerX - 10 && x < string1Fret16.centerX + 10) {
+						string1Fret16.state = drawShapes(string1Fret16.centerX, string1Fret16.centerY, string1Fret16.state);
+					}
+					else if (x > string1Fret17.centerX - 10 && x < string1Fret17.centerX + 10) {
+						string1Fret17.state = drawShapes(string1Fret17.centerX, string1Fret17.centerY, string1Fret17.state);
+					}
+					else if (x > string1Fret18.centerX - 10 && x < string1Fret18.centerX + 10) {
+						string1Fret18.state = drawShapes(string1Fret18.centerX, string1Fret18.centerY, string1Fret18.state);
+					}
+					else if (x > 20 && x < 40) {
+						drawOpen(string1FretOpen.centerX, string1FretOpen.centerY);
+					}
+				}
+				
+				//if string string 2
+				if (y > stringTop[2] && y < stringBot[2]) {
+					
+					if (x > string2Fret1.centerX - 10 && x < string2Fret1.centerX + 10) {
+						string2Fret1.state = drawShapes(string2Fret1.centerX, string2Fret1.centerY, string2Fret1.state);
+					}
+					else if (x > string2Fret2.centerX - 10 && x < string2Fret2.centerX + 10) {
+						string2Fret2.state = drawShapes(string2Fret2.centerX, string2Fret2.centerY, string2Fret2.state);
+					}
+					else if (x > string2Fret3.centerX - 10 && x < string2Fret3.centerX + 10) {
+						string2Fret3.state = drawShapes(string2Fret3.centerX, string2Fret3.centerY, string2Fret3.state);
+					}
+					else if (x > string2Fret4.centerX - 10 && x < string2Fret4.centerX + 10) {
+						string2Fret4.state = drawShapes(string2Fret4.centerX, string2Fret4.centerY, string2Fret4.state);
+					}
+					else if (x > string2Fret5.centerX - 10 && x < string2Fret5.centerX + 10) {
+						string2Fret5.state = drawShapes(string2Fret5.centerX, string2Fret5.centerY, string2Fret5.state);
+					}
+					else if (x > string2Fret6.centerX - 10 && x < string2Fret6.centerX + 10) {
+						string2Fret6.state = drawShapes(string2Fret6.centerX, string2Fret6.centerY, string2Fret6.state);
+					}
+					else if (x > string2Fret7.centerX - 10 && x < string2Fret7.centerX + 10) {
+						string2Fret7.state = drawShapes(string2Fret7.centerX, string2Fret7.centerY, string2Fret7.state);
+					}
+					else if (x > string2Fret8.centerX - 10 && x < string2Fret8.centerX + 10) {
+						string2Fret8.state = drawShapes(string2Fret8.centerX, string2Fret8.centerY, string2Fret8.state);
+					}
+					else if (x > string2Fret9.centerX - 10 && x < string2Fret9.centerX + 10) {
+						string2Fret9.state = drawShapes(string2Fret9.centerX, string2Fret9.centerY, string2Fret9.state);
+					}
+					else if (x > string2Fret10.centerX - 10 && x < string2Fret10.centerX + 10) {
+						string2Fret10.state = drawShapes(string2Fret10.centerX, string2Fret10.centerY, string2Fret10.state);
+					}
+					else if (x > string2Fret11.centerX - 10 && x < string2Fret11.centerX + 10) {
+						string2Fret11.state = drawShapes(string2Fret11.centerX, string2Fret11.centerY, string2Fret11.state);
+					}
+					else if (x > string2Fret12.centerX - 10 && x < string2Fret12.centerX + 10) {
+						string2Fret12.state = drawShapes(string2Fret12.centerX, string2Fret12.centerY, string2Fret12.state);
+					}
+					else if (x > string2Fret13.centerX - 10 && x < string2Fret13.centerX + 10) {
+						string2Fret13.state = drawShapes(string2Fret13.centerX, string2Fret13.centerY, string2Fret13.state);
+					}
+					else if (x > string2Fret14.centerX - 10 && x < string2Fret14.centerX + 10) {
+						string2Fret14.state = drawShapes(string2Fret14.centerX, string2Fret14.centerY, string2Fret14.state);
+					}
+					else if (x > string2Fret15.centerX - 10 && x < string2Fret15.centerX + 10) {
+						string2Fret15.state = drawShapes(string2Fret15.centerX, string2Fret15.centerY, string2Fret15.state);
+					}
+					else if (x > string2Fret16.centerX - 10 && x < string2Fret16.centerX + 10) {
+						string2Fret16.state = drawShapes(string2Fret16.centerX, string2Fret16.centerY, string2Fret16.state);
+					}
+					else if (x > string2Fret17.centerX - 10 && x < string2Fret17.centerX + 10) {
+						string2Fret17.state = drawShapes(string2Fret17.centerX, string2Fret17.centerY, string2Fret17.state);
+					}
+					else if (x > string2Fret18.centerX - 10 && x < string2Fret18.centerX + 10) {
+						string2Fret18.state = drawShapes(string2Fret18.centerX, string2Fret18.centerY, string2Fret18.state);
+					}
+					else if (x > 20 && x < 40) {
+						drawOpen(string2FretOpen.centerX, string2FretOpen.centerY);
+					}
+					
+				}
+				
+				//if string string 3
+				if (y > stringTop[3] && y < stringBot[3]) {
+					
+					if (x > string3Fret1.centerX - 10 && x < string3Fret1.centerX + 10) {
+						string3Fret1.state = drawShapes(string3Fret1.centerX, string3Fret1.centerY, string3Fret1.state);
+					}
+					else if (x > string3Fret2.centerX - 10 && x < string3Fret2.centerX + 10) {
+						string3Fret2.state = drawShapes(string3Fret2.centerX, string3Fret2.centerY, string3Fret2.state);
+					}
+					else if (x > string3Fret3.centerX - 10 && x < string3Fret3.centerX + 10) {
+						string3Fret3.state = drawShapes(string3Fret3.centerX, string3Fret3.centerY, string3Fret3.state);
+					}
+					else if (x > string3Fret4.centerX - 10 && x < string3Fret4.centerX + 10) {
+						string3Fret4.state = drawShapes(string3Fret4.centerX, string3Fret4.centerY, string3Fret4.state);
+					}
+					else if (x > string3Fret5.centerX - 10 && x < string3Fret5.centerX + 10) {
+						string3Fret5.state = drawShapes(string3Fret5.centerX, string3Fret5.centerY, string3Fret5.state);
+					}
+					else if (x > string3Fret6.centerX - 10 && x < string3Fret6.centerX + 10) {
+						string3Fret6.state = drawShapes(string3Fret6.centerX, string3Fret6.centerY, string3Fret6.state);
+					}
+					else if (x > string3Fret7.centerX - 10 && x < string3Fret7.centerX + 10) {
+						string3Fret7.state = drawShapes(string3Fret7.centerX, string3Fret7.centerY, string3Fret7.state);
+					}
+					else if (x > string3Fret8.centerX - 10 && x < string3Fret8.centerX + 10) {
+						string3Fret8.state = drawShapes(string3Fret8.centerX, string3Fret8.centerY, string3Fret8.state);
+					}
+					else if (x > string3Fret9.centerX - 10 && x < string3Fret9.centerX + 10) {
+						string3Fret9.state = drawShapes(string3Fret9.centerX, string3Fret9.centerY, string3Fret9.state);
+					}
+					else if (x > string3Fret10.centerX - 10 && x < string3Fret10.centerX + 10) {
+						string3Fret10.state = drawShapes(string3Fret10.centerX, string3Fret10.centerY, string3Fret10.state);
+					}
+					else if (x > string3Fret11.centerX - 10 && x < string3Fret11.centerX + 10) {
+						string3Fret11.state = drawShapes(string3Fret11.centerX, string3Fret11.centerY, string3Fret11.state);
+					}
+					else if (x > string3Fret12.centerX - 10 && x < string3Fret12.centerX + 10) {
+						string3Fret12.state = drawShapes(string3Fret12.centerX, string3Fret12.centerY, string3Fret12.state);
+					}
+					else if (x > string3Fret13.centerX - 10 && x < string3Fret13.centerX + 10) {
+						string3Fret13.state = drawShapes(string3Fret13.centerX, string3Fret13.centerY, string3Fret13.state);
+					}
+					else if (x > string3Fret14.centerX - 10 && x < string3Fret14.centerX + 10) {
+						string3Fret14.state = drawShapes(string3Fret14.centerX, string3Fret14.centerY, string3Fret14.state);
+					}
+					else if (x > string3Fret15.centerX - 10 && x < string3Fret15.centerX + 10) {
+						string3Fret15.state = drawShapes(string3Fret15.centerX, string3Fret15.centerY, string3Fret15.state);
+					}
+					else if (x > string3Fret16.centerX - 10 && x < string3Fret16.centerX + 10) {
+						string3Fret16.state = drawShapes(string3Fret16.centerX, string3Fret16.centerY, string3Fret16.state);
+					}
+					else if (x > string3Fret17.centerX - 10 && x < string3Fret17.centerX + 10) {
+						string3Fret17.state = drawShapes(string3Fret17.centerX, string3Fret17.centerY, string3Fret17.state);
+					}
+					else if (x > string3Fret18.centerX - 10 && x < string3Fret18.centerX + 10) {
+						string3Fret18.state = drawShapes(string3Fret18.centerX, string3Fret18.centerY, string3Fret18.state);
+					}
+					else if (x > 20 && x < 40) {
+						drawOpen(string3FretOpen.centerX, string3FretOpen.centerY);
+					}
+				}
+				
+				//if string string 4
+				if (y > stringTop[4] && y < stringBot[4]) {
+					
+					if (x > string4Fret1.centerX - 10 && x < string4Fret1.centerX + 10) {
+						string4Fret1.state = drawShapes(string4Fret1.centerX, string4Fret1.centerY, string4Fret1.state);
+					}
+					else if (x > string4Fret2.centerX - 10 && x < string4Fret2.centerX + 10) {
+						string4Fret2.state = drawShapes(string4Fret2.centerX, string4Fret2.centerY, string4Fret2.state);
+					}
+					else if (x > string4Fret3.centerX - 10 && x < string4Fret3.centerX + 10) {
+						string4Fret3.state = drawShapes(string4Fret3.centerX, string4Fret3.centerY, string4Fret3.state);
+					}
+					else if (x > string4Fret4.centerX - 10 && x < string4Fret4.centerX + 10) {
+						string4Fret4.state = drawShapes(string4Fret4.centerX, string4Fret4.centerY, string4Fret4.state);
+					}
+					else if (x > string4Fret5.centerX - 10 && x < string4Fret5.centerX + 10) {
+						string4Fret5.state = drawShapes(string4Fret5.centerX, string4Fret5.centerY, string4Fret5.state);
+					}
+					else if (x > string4Fret6.centerX - 10 && x < string4Fret6.centerX + 10) {
+						string4Fret6.state = drawShapes(string4Fret6.centerX, string4Fret6.centerY, string4Fret6.state);
+					}
+					else if (x > string4Fret7.centerX - 10 && x < string4Fret7.centerX + 10) {
+						string4Fret7.state = drawShapes(string4Fret7.centerX, string4Fret7.centerY, string4Fret7.state);
+					}
+					else if (x > string4Fret8.centerX - 10 && x < string4Fret8.centerX + 10) {
+						string4Fret8.state = drawShapes(string4Fret8.centerX, string4Fret8.centerY, string4Fret8.state);
+					}
+					else if (x > string4Fret9.centerX - 10 && x < string4Fret9.centerX + 10) {
+						string4Fret9.state = drawShapes(string4Fret9.centerX, string4Fret9.centerY, string4Fret9.state);
+					}
+					else if (x > string4Fret10.centerX - 10 && x < string4Fret10.centerX + 10) {
+						string4Fret10.state = drawShapes(string4Fret10.centerX, string4Fret10.centerY, string4Fret10.state);
+					}
+					else if (x > string4Fret11.centerX - 10 && x < string4Fret11.centerX + 10) {
+						string4Fret11.state = drawShapes(string4Fret11.centerX, string4Fret11.centerY, string4Fret11.state);
+					}
+					else if (x > string4Fret12.centerX - 10 && x < string4Fret12.centerX + 10) {
+						string4Fret12.state = drawShapes(string4Fret12.centerX, string4Fret12.centerY, string4Fret12.state);
+					}
+					else if (x > string4Fret13.centerX - 10 && x < string4Fret13.centerX + 10) {
+						string4Fret13.state = drawShapes(string4Fret13.centerX, string4Fret13.centerY, string4Fret13.state);
+					}
+					else if (x > string4Fret14.centerX - 10 && x < string4Fret14.centerX + 10) {
+						string4Fret14.state = drawShapes(string4Fret14.centerX, string4Fret14.centerY, string4Fret14.state);
+					}
+					else if (x > string4Fret15.centerX - 10 && x < string4Fret15.centerX + 10) {
+						string4Fret15.state = drawShapes(string4Fret15.centerX, string4Fret15.centerY, string4Fret15.state);
+					}
+					else if (x > string4Fret16.centerX - 10 && x < string4Fret16.centerX + 10) {
+						string4Fret16.state = drawShapes(string4Fret16.centerX, string4Fret16.centerY, string4Fret16.state);
+					}
+					else if (x > string4Fret17.centerX - 10 && x < string4Fret17.centerX + 10) {
+						string4Fret17.state = drawShapes(string4Fret17.centerX, string4Fret17.centerY, string4Fret17.state);
+					}
+					else if (x > string4Fret18.centerX - 10 && x < string4Fret18.centerX + 10) {
+						string4Fret18.state = drawShapes(string4Fret18.centerX, string4Fret18.centerY, string4Fret18.state);
+					}
+					else if (x > 20 && x < 40) {
+						drawOpen(string4FretOpen.centerX, string4FretOpen.centerY);
+					}
+				}
+				
+				//if string string 5
+				if (y > stringTop[5] && y < stringBot[5]) {
+					
+					if (x > string5Fret1.centerX - 10 && x < string5Fret1.centerX + 10) {
+						string5Fret1.state = drawShapes(string5Fret1.centerX, string5Fret1.centerY, string5Fret1.state);
+					}
+					else if (x > string5Fret2.centerX - 10 && x < string5Fret2.centerX + 10) {
+						string5Fret2.state = drawShapes(string5Fret2.centerX, string5Fret2.centerY, string5Fret2.state);
+					}
+					else if (x > string5Fret3.centerX - 10 && x < string5Fret3.centerX + 10) {
+						string5Fret3.state = drawShapes(string5Fret3.centerX, string5Fret3.centerY, string5Fret3.state);
+					}
+					else if (x > string5Fret4.centerX - 10 && x < string5Fret4.centerX + 10) {
+						string5Fret4.state = drawShapes(string5Fret4.centerX, string5Fret4.centerY, string5Fret4.state);
+					}
+					else if (x > string5Fret5.centerX - 10 && x < string5Fret5.centerX + 10) {
+						string5Fret5.state = drawShapes(string5Fret5.centerX, string5Fret5.centerY, string5Fret5.state);
+					}
+					else if (x > string5Fret6.centerX - 10 && x < string5Fret6.centerX + 10) {
+						string5Fret6.state = drawShapes(string5Fret6.centerX, string5Fret6.centerY, string5Fret6.state);
+					}
+					else if (x > string5Fret7.centerX - 10 && x < string5Fret7.centerX + 10) {
+						string5Fret7.state = drawShapes(string5Fret7.centerX, string5Fret7.centerY, string5Fret7.state);
+					}
+					else if (x > string5Fret8.centerX - 10 && x < string5Fret8.centerX + 10) {
+						string5Fret8.state = drawShapes(string5Fret8.centerX, string5Fret8.centerY, string5Fret8.state);
+					}
+					else if (x > string5Fret9.centerX - 10 && x < string5Fret9.centerX + 10) {
+						string5Fret9.state = drawShapes(string5Fret9.centerX, string5Fret9.centerY, string5Fret9.state);
+					}
+					else if (x > string5Fret10.centerX - 10 && x < string5Fret10.centerX + 10) {
+						string5Fret10.state = drawShapes(string5Fret10.centerX, string5Fret10.centerY, string5Fret10.state);
+					}
+					else if (x > string5Fret11.centerX - 10 && x < string5Fret11.centerX + 10) {
+						string5Fret11.state = drawShapes(string5Fret11.centerX, string5Fret11.centerY, string5Fret11.state);
+					}
+					else if (x > string5Fret12.centerX - 10 && x < string5Fret12.centerX + 10) {
+						string5Fret12.state = drawShapes(string5Fret12.centerX, string5Fret12.centerY, string5Fret12.state);
+					}
+					else if (x > string5Fret13.centerX - 10 && x < string5Fret13.centerX + 10) {
+						string5Fret13.state = drawShapes(string5Fret13.centerX, string5Fret13.centerY, string5Fret13.state);
+					}
+					else if (x > string5Fret14.centerX - 10 && x < string5Fret14.centerX + 10) {
+						string5Fret14.state = drawShapes(string5Fret14.centerX, string5Fret14.centerY, string5Fret14.state);
+					}
+					else if (x > string5Fret15.centerX - 10 && x < string5Fret15.centerX + 10) {
+						string5Fret15.state = drawShapes(string5Fret15.centerX, string5Fret15.centerY, string5Fret15.state);
+					}
+					else if (x > string5Fret16.centerX - 10 && x < string5Fret16.centerX + 10) {
+						string5Fret16.state = drawShapes(string5Fret16.centerX, string5Fret16.centerY, string5Fret16.state);
+					}
+					else if (x > string5Fret17.centerX - 10 && x < string5Fret17.centerX + 10) {
+						string5Fret17.state = drawShapes(string5Fret17.centerX, string5Fret17.centerY, string5Fret17.state);
+					}
+					else if (x > string5Fret18.centerX - 10 && x < string5Fret18.centerX + 10) {
+						string5Fret18.state = drawShapes(string5Fret18.centerX, string5Fret18.centerY, string5Fret18.state);
+					}
+					else if (x > 20 && x < 40) {
+						drawOpen(string5FretOpen.centerX, string5FretOpen.centerY);
+					}
+				}
+				
+				//if string string 6
+				if (y > stringTop[6] && y < stringBot[6]) {
+					
+					if (x > string6Fret1.centerX - 10 && x < string6Fret1.centerX + 10) {
+						string6Fret1.state = drawShapes(string6Fret1.centerX, string6Fret1.centerY, string6Fret1.state);
+					}
+					else if (x > string6Fret2.centerX - 10 && x < string6Fret2.centerX + 10) {
+						string6Fret2.state = drawShapes(string6Fret2.centerX, string6Fret2.centerY, string6Fret2.state);
+					}
+					else if (x > string6Fret3.centerX - 10 && x < string6Fret3.centerX + 10) {
+						string6Fret3.state = drawShapes(string6Fret3.centerX, string6Fret3.centerY, string6Fret3.state);
+					}
+					else if (x > string6Fret4.centerX - 10 && x < string6Fret4.centerX + 10) {
+						string6Fret4.state = drawShapes(string6Fret4.centerX, string6Fret4.centerY, string6Fret4.state);
+					}
+					else if (x > string6Fret5.centerX - 10 && x < string6Fret5.centerX + 10) {
+						string6Fret5.state = drawShapes(string6Fret5.centerX, string6Fret5.centerY, string6Fret5.state);
+					}
+					else if (x > string6Fret6.centerX - 10 && x < string6Fret6.centerX + 10) {
+						string6Fret6.state = drawShapes(string6Fret6.centerX, string6Fret6.centerY, string6Fret6.state);
+					}
+					else if (x > string6Fret7.centerX - 10 && x < string6Fret7.centerX + 10) {
+						string6Fret7.state = drawShapes(string6Fret7.centerX, string6Fret7.centerY, string6Fret7.state);
+					}
+					else if (x > string6Fret8.centerX - 10 && x < string6Fret8.centerX + 10) {
+						string6Fret8.state = drawShapes(string6Fret8.centerX, string6Fret8.centerY, string6Fret8.state);
+					}
+					else if (x > string6Fret9.centerX - 10 && x < string6Fret9.centerX + 10) {
+						string6Fret9.state = drawShapes(string6Fret9.centerX, string6Fret9.centerY, string6Fret9.state);
+					}
+					else if (x > string6Fret10.centerX - 10 && x < string6Fret10.centerX + 10) {
+						string6Fret10.state = drawShapes(string6Fret10.centerX, string6Fret10.centerY, string6Fret10.state);
+					}
+					else if (x > string6Fret11.centerX - 10 && x < string6Fret11.centerX + 10) {
+						string6Fret11.state = drawShapes(string6Fret11.centerX, string6Fret11.centerY, string6Fret11.state);
+					}
+					else if (x > string6Fret12.centerX - 10 && x < string6Fret12.centerX + 10) {
+						string6Fret12.state = drawShapes(string6Fret12.centerX, string6Fret12.centerY, string6Fret12.state);
+					}
+					else if (x > string6Fret13.centerX - 10 && x < string6Fret13.centerX + 10) {
+						string6Fret13.state = drawShapes(string6Fret13.centerX, string6Fret13.centerY, string6Fret13.state);
+					}
+					else if (x > string6Fret14.centerX - 10 && x < string6Fret14.centerX + 10) {
+						string6Fret14.state = drawShapes(string6Fret14.centerX, string6Fret14.centerY, string6Fret14.state);
+					}
+					else if (x > string6Fret15.centerX - 10 && x < string6Fret15.centerX + 10) {
+						string6Fret15.state = drawShapes(string6Fret15.centerX, string6Fret15.centerY, string6Fret15.state);
+					}
+					else if (x > string6Fret16.centerX - 10 && x < string6Fret16.centerX + 10) {
+						string6Fret16.state = drawShapes(string6Fret16.centerX, string6Fret16.centerY, string6Fret16.state);
+					}
+					else if (x > string6Fret17.centerX - 10 && x < string6Fret17.centerX + 10) {
+						string6Fret17.state = drawShapes(string6Fret17.centerX, string6Fret17.centerY, string6Fret17.state);
+					}
+					else if (x > string6Fret18.centerX - 10 && x < string6Fret18.centerX + 10) {
+						string6Fret18.state = drawShapes(string6Fret18.centerX, string6Fret18.centerY, string6Fret18.state);
+					}
+					else if (x > 20 && x < 40) {
+						drawOpen(string6FretOpen.centerX, string6FretOpen.centerY);
+					}
+				}
+				
+			}
+		
+			//Determine position for plotting
+			function determinePositionForText(x,y) {
+				
+				//Array for string centers
+				var stringTop = [0, 50, 90, 130, 170, 210, 240];
+				var stringBot = [0, 70, 110, 150, 190, 230, 260];
+				
+				//if string string 1
+				if (y > stringTop[1] && y < stringBot[1]) {
+					
+					if (x > string1Fret1.centerX - 10 && x < string1Fret1.centerX + 10) {
+						writeText(string1Fret1.centerX, string1Fret1.centerY);
+					}
+					else if (x > string1Fret2.centerX - 10 && x < string1Fret2.centerX + 10) {
+						writeText(string1Fret2.centerX, string1Fret2.centerY);
+					}
+					else if (x > string1Fret3.centerX - 10 && x < string1Fret3.centerX + 10) {
+						writeText(string1Fret3.centerX, string1Fret3.centerY);
+					}
+					else if (x > string1Fret4.centerX - 10 && x < string1Fret4.centerX + 10) {
+						writeText(string1Fret4.centerX, string1Fret4.centerY);
+					}
+					else if (x > string1Fret5.centerX - 10 && x < string1Fret5.centerX + 10) {
+						writeText(string1Fret5.centerX, string1Fret5.centerY);
+					}
+					else if (x > string1Fret6.centerX - 10 && x < string1Fret6.centerX + 10) {
+						writeText(string1Fret6.centerX, string1Fret6.centerY);
+					}
+					else if (x > string1Fret7.centerX - 10 && x < string1Fret7.centerX + 10) {
+						writeText(string1Fret7.centerX, string1Fret7.centerY);
+					}
+					else if (x > string1Fret8.centerX - 10 && x < string1Fret8.centerX + 10) {
+						writeText(string1Fret8.centerX, string1Fret8.centerY);
+					}
+					else if (x > string1Fret9.centerX - 10 && x < string1Fret9.centerX + 10) {
+						writeText(string1Fret9.centerX, string1Fret9.centerY);
+					}
+					else if (x > string1Fret10.centerX - 10 && x < string1Fret10.centerX + 10) {
+						writeText(string1Fret10.centerX, string1Fret10.centerY);
+					}
+					else if (x > string1Fret11.centerX - 10 && x < string1Fret11.centerX + 10) {
+						writeText(string1Fret11.centerX, string1Fret11.centerY);
+					}
+					else if (x > string1Fret12.centerX - 10 && x < string1Fret12.centerX + 10) {
+						writeText(string1Fret12.centerX, string1Fret12.centerY);
+					}
+					else if (x > string1Fret13.centerX - 10 && x < string1Fret13.centerX + 10) {
+						writeText(string1Fret13.centerX, string1Fret13.centerY);
+					}
+					else if (x > string1Fret14.centerX - 10 && x < string1Fret14.centerX + 10) {
+						writeText(string1Fret14.centerX, string1Fret14.centerY);
+					}
+					else if (x > string1Fret15.centerX - 10 && x < string1Fret15.centerX + 10) {
+						writeText(string1Fret15.centerX, string1Fret15.centerY);
+					}
+					else if (x > string1Fret16.centerX - 10 && x < string1Fret16.centerX + 10) {
+						writeText(string1Fret16.centerX, string1Fret16.centerY);
+					}
+					else if (x > string1Fret17.centerX - 10 && x < string1Fret17.centerX + 10) {
+						writeText(string1Fret17.centerX, string1Fret17.centerY);
+					}
+					else if (x > string1Fret18.centerX - 10 && x < string1Fret18.centerX + 10) {
+						writeText(string1Fret18.centerX, string1Fret18.centerY);
+					}
+					else if (x > 20 && x < 40) {
+						writeTextOpen(string1FretOpen.centerX, string1FretOpen.centerY);
+					}
+				}
+				
+				//if string string 2
+				if (y > stringTop[2] && y < stringBot[2]) {
+					
+					if (x > string2Fret1.centerX - 10 && x < string2Fret1.centerX + 10) {
+						writeText(string2Fret1.centerX, string2Fret1.centerY);
+					}
+					else if (x > string2Fret2.centerX - 10 && x < string2Fret2.centerX + 10) {
+						writeText(string2Fret2.centerX, string2Fret2.centerY);
+					}
+					else if (x > string2Fret3.centerX - 10 && x < string2Fret3.centerX + 10) {
+						writeText(string2Fret3.centerX, string2Fret3.centerY);
+					}
+					else if (x > string2Fret4.centerX - 10 && x < string2Fret4.centerX + 10) {
+						writeText(string2Fret4.centerX, string2Fret4.centerY);
+					}
+					else if (x > string2Fret5.centerX - 10 && x < string2Fret5.centerX + 10) {
+						writeText(string2Fret5.centerX, string2Fret5.centerY);
+					}
+					else if (x > string2Fret6.centerX - 10 && x < string2Fret6.centerX + 10) {
+						writeText(string2Fret6.centerX, string2Fret6.centerY);
+					}
+					else if (x > string2Fret7.centerX - 10 && x < string2Fret7.centerX + 10) {
+						writeText(string2Fret7.centerX, string2Fret7.centerY);
+					}
+					else if (x > string2Fret8.centerX - 10 && x < string2Fret8.centerX + 10) {
+						writeText(string2Fret8.centerX, string2Fret8.centerY);
+					}
+					else if (x > string2Fret9.centerX - 10 && x < string2Fret9.centerX + 10) {
+						writeText(string2Fret9.centerX, string2Fret9.centerY);
+					}
+					else if (x > string2Fret10.centerX - 10 && x < string2Fret10.centerX + 10) {
+						writeText(string2Fret10.centerX, string2Fret10.centerY);
+					}
+					else if (x > string2Fret11.centerX - 10 && x < string2Fret11.centerX + 10) {
+						writeText(string2Fret11.centerX, string2Fret11.centerY);
+					}
+					else if (x > string2Fret12.centerX - 10 && x < string2Fret12.centerX + 10) {
+						writeText(string2Fret12.centerX, string2Fret12.centerY);
+					}
+					else if (x > string2Fret13.centerX - 10 && x < string2Fret13.centerX + 10) {
+						writeText(string2Fret13.centerX, string2Fret13.centerY);
+					}
+					else if (x > string2Fret14.centerX - 10 && x < string2Fret14.centerX + 10) {
+						writeText(string2Fret14.centerX, string2Fret14.centerY);
+					}
+					else if (x > string2Fret15.centerX - 10 && x < string2Fret15.centerX + 10) {
+						writeText(string2Fret15.centerX, string2Fret15.centerY);
+					}
+					else if (x > string2Fret16.centerX - 10 && x < string2Fret16.centerX + 10) {
+						writeText(string2Fret16.centerX, string2Fret16.centerY);
+					}
+					else if (x > string2Fret17.centerX - 10 && x < string2Fret17.centerX + 10) {
+						writeText(string2Fret17.centerX, string2Fret17.centerY);
+					}
+					else if (x > string2Fret18.centerX - 10 && x < string2Fret18.centerX + 10) {
+						writeText(string2Fret18.centerX, string2Fret18.centerY);
+					}
+					else if (x > 20 && x < 40) {
+						writeTextOpen(string2FretOpen.centerX, string2FretOpen.centerY);
+					}
+					
+				}
+				
+				//if string string 3
+				if (y > stringTop[3] && y < stringBot[3]) {
+					
+					if (x > string3Fret1.centerX - 10 && x < string3Fret1.centerX + 10) {
+						writeText(string3Fret1.centerX, string3Fret1.centerY);
+					}
+					else if (x > string3Fret2.centerX - 10 && x < string3Fret2.centerX + 10) {
+						writeText(string3Fret2.centerX, string3Fret2.centerY);
+					}
+					else if (x > string3Fret3.centerX - 10 && x < string3Fret3.centerX + 10) {
+						writeText(string3Fret3.centerX, string3Fret3.centerY);
+					}
+					else if (x > string3Fret4.centerX - 10 && x < string3Fret4.centerX + 10) {
+						writeText(string3Fret4.centerX, string3Fret4.centerY);
+					}
+					else if (x > string3Fret5.centerX - 10 && x < string3Fret5.centerX + 10) {
+						writeText(string3Fret5.centerX, string3Fret5.centerY);
+					}
+					else if (x > string3Fret6.centerX - 10 && x < string3Fret6.centerX + 10) {
+						writeText(string3Fret6.centerX, string3Fret6.centerY);
+					}
+					else if (x > string3Fret7.centerX - 10 && x < string3Fret7.centerX + 10) {
+						writeText(string3Fret7.centerX, string3Fret7.centerY);
+					}
+					else if (x > string3Fret8.centerX - 10 && x < string3Fret8.centerX + 10) {
+						writeText(string3Fret8.centerX, string3Fret8.centerY);
+					}
+					else if (x > string3Fret9.centerX - 10 && x < string3Fret9.centerX + 10) {
+						writeText(string3Fret9.centerX, string3Fret9.centerY);
+					}
+					else if (x > string3Fret10.centerX - 10 && x < string3Fret10.centerX + 10) {
+						writeText(string3Fret10.centerX, string3Fret10.centerY);
+					}
+					else if (x > string3Fret11.centerX - 10 && x < string3Fret11.centerX + 10) {
+						writeText(string3Fret11.centerX, string3Fret11.centerY);
+					}
+					else if (x > string3Fret12.centerX - 10 && x < string3Fret12.centerX + 10) {
+						writeText(string3Fret12.centerX, string3Fret12.centerY);
+					}
+					else if (x > string3Fret13.centerX - 10 && x < string3Fret13.centerX + 10) {
+						writeText(string3Fret13.centerX, string3Fret13.centerY);
+					}
+					else if (x > string3Fret14.centerX - 10 && x < string3Fret14.centerX + 10) {
+						writeText(string3Fret14.centerX, string3Fret14.centerY);
+					}
+					else if (x > string3Fret15.centerX - 10 && x < string3Fret15.centerX + 10) {
+						writeText(string3Fret15.centerX, string3Fret15.centerY);
+					}
+					else if (x > string3Fret16.centerX - 10 && x < string3Fret16.centerX + 10) {
+						writeText(string3Fret16.centerX, string3Fret16.centerY);
+					}
+					else if (x > string3Fret17.centerX - 10 && x < string3Fret17.centerX + 10) {
+						writeText(string3Fret17.centerX, string3Fret17.centerY);
+					}
+					else if (x > string3Fret18.centerX - 10 && x < string3Fret18.centerX + 10) {
+						writeText(string3Fret18.centerX, string3Fret18.centerY);
+					}
+					else if (x > 20 && x < 40) {
+						writeTextOpen(string3FretOpen.centerX, string3FretOpen.centerY);
+					}
+				}
+				
+				//if string string 4
+				if (y > stringTop[4] && y < stringBot[4]) {
+					
+					if (x > string4Fret1.centerX - 10 && x < string4Fret1.centerX + 10) {
+						writeText(string4Fret1.centerX, string4Fret1.centerY);
+					}
+					else if (x > string4Fret2.centerX - 10 && x < string4Fret2.centerX + 10) {
+						writeText(string4Fret2.centerX, string4Fret2.centerY);
+					}
+					else if (x > string4Fret3.centerX - 10 && x < string4Fret3.centerX + 10) {
+						writeText(string4Fret3.centerX, string4Fret3.centerY);
+					}
+					else if (x > string4Fret4.centerX - 10 && x < string4Fret4.centerX + 10) {
+						writeText(string4Fret4.centerX, string4Fret4.centerY);
+					}
+					else if (x > string4Fret5.centerX - 10 && x < string4Fret5.centerX + 10) {
+						writeText(string4Fret5.centerX, string4Fret5.centerY);
+					}
+					else if (x > string4Fret6.centerX - 10 && x < string4Fret6.centerX + 10) {
+						writeText(string4Fret6.centerX, string4Fret6.centerY);
+					}
+					else if (x > string4Fret7.centerX - 10 && x < string4Fret7.centerX + 10) {
+						writeText(string4Fret7.centerX, string4Fret7.centerY);
+					}
+					else if (x > string4Fret8.centerX - 10 && x < string4Fret8.centerX + 10) {
+						writeText(string4Fret8.centerX, string4Fret8.centerY);
+					}
+					else if (x > string4Fret9.centerX - 10 && x < string4Fret9.centerX + 10) {
+						writeText(string4Fret9.centerX, string4Fret9.centerY);
+					}
+					else if (x > string4Fret10.centerX - 10 && x < string4Fret10.centerX + 10) {
+						writeText(string4Fret10.centerX, string4Fret10.centerY);
+					}
+					else if (x > string4Fret11.centerX - 10 && x < string4Fret11.centerX + 10) {
+						writeText(string4Fret11.centerX, string4Fret11.centerY);
+					}
+					else if (x > string4Fret12.centerX - 10 && x < string4Fret12.centerX + 10) {
+						writeText(string4Fret12.centerX, string4Fret12.centerY);
+					}
+					else if (x > string4Fret13.centerX - 10 && x < string4Fret13.centerX + 10) {
+						writeText(string4Fret13.centerX, string4Fret13.centerY);
+					}
+					else if (x > string4Fret14.centerX - 10 && x < string4Fret14.centerX + 10) {
+						writeText(string4Fret14.centerX, string4Fret14.centerY);
+					}
+					else if (x > string4Fret15.centerX - 10 && x < string4Fret15.centerX + 10) {
+						writeText(string4Fret15.centerX, string4Fret15.centerY);
+					}
+					else if (x > string4Fret16.centerX - 10 && x < string4Fret16.centerX + 10) {
+						writeText(string4Fret16.centerX, string4Fret16.centerY);
+					}
+					else if (x > string4Fret17.centerX - 10 && x < string4Fret17.centerX + 10) {
+						writeText(string4Fret17.centerX, string4Fret17.centerY);
+					}
+					else if (x > string4Fret18.centerX - 10 && x < string4Fret18.centerX + 10) {
+						writeText(string4Fret18.centerX, string4Fret18.centerY);
+					}
+					else if (x > 20 && x < 40) {
+						writeTextOpen(string4FretOpen.centerX, string4FretOpen.centerY);
+					}
+				}
+				
+				//if string string 5
+				if (y > stringTop[5] && y < stringBot[5]) {
+					
+					if (x > string5Fret1.centerX - 10 && x < string5Fret1.centerX + 10) {
+						writeText(string5Fret1.centerX, string5Fret1.centerY);
+					}
+					else if (x > string5Fret2.centerX - 10 && x < string5Fret2.centerX + 10) {
+						writeText(string5Fret2.centerX, string5Fret2.centerY);
+					}
+					else if (x > string5Fret3.centerX - 10 && x < string5Fret3.centerX + 10) {
+						writeText(string5Fret3.centerX, string5Fret3.centerY);
+					}
+					else if (x > string5Fret4.centerX - 10 && x < string5Fret4.centerX + 10) {
+						writeText(string5Fret4.centerX, string5Fret4.centerY);
+					}
+					else if (x > string5Fret5.centerX - 10 && x < string5Fret5.centerX + 10) {
+						writeText(string5Fret5.centerX, string5Fret5.centerY);
+					}
+					else if (x > string5Fret6.centerX - 10 && x < string5Fret6.centerX + 10) {
+						writeText(string5Fret6.centerX, string5Fret6.centerY);
+					}
+					else if (x > string5Fret7.centerX - 10 && x < string5Fret7.centerX + 10) {
+						writeText(string5Fret7.centerX, string5Fret7.centerY);
+					}
+					else if (x > string5Fret8.centerX - 10 && x < string5Fret8.centerX + 10) {
+						writeText(string5Fret8.centerX, string5Fret8.centerY);
+					}
+					else if (x > string5Fret9.centerX - 10 && x < string5Fret9.centerX + 10) {
+						writeText(string5Fret9.centerX, string5Fret9.centerY);
+					}
+					else if (x > string5Fret10.centerX - 10 && x < string5Fret10.centerX + 10) {
+						writeText(string5Fret10.centerX, string5Fret10.centerY);
+					}
+					else if (x > string5Fret11.centerX - 10 && x < string5Fret11.centerX + 10) {
+						writeText(string5Fret11.centerX, string5Fret11.centerY);
+					}
+					else if (x > string5Fret12.centerX - 10 && x < string5Fret12.centerX + 10) {
+						writeText(string5Fret12.centerX, string5Fret12.centerY);
+					}
+					else if (x > string5Fret13.centerX - 10 && x < string5Fret13.centerX + 10) {
+						writeText(string5Fret13.centerX, string5Fret13.centerY);
+					}
+					else if (x > string5Fret14.centerX - 10 && x < string5Fret14.centerX + 10) {
+						writeText(string5Fret14.centerX, string5Fret14.centerY);
+					}
+					else if (x > string5Fret15.centerX - 10 && x < string5Fret15.centerX + 10) {
+						writeText(string5Fret15.centerX, string5Fret15.centerY);
+					}
+					else if (x > string5Fret16.centerX - 10 && x < string5Fret16.centerX + 10) {
+						writeText(string5Fret16.centerX, string5Fret16.centerY);
+					}
+					else if (x > string5Fret17.centerX - 10 && x < string5Fret17.centerX + 10) {
+						writeText(string5Fret17.centerX, string5Fret17.centerY);
+					}
+					else if (x > string5Fret18.centerX - 10 && x < string5Fret18.centerX + 10) {
+						writeText(string5Fret18.centerX, string5Fret18.centerY);
+					}
+					else if (x > 20 && x < 40) {
+						writeTextOpen(string5FretOpen.centerX, string5FretOpen.centerY);
+					}
+				}
+				
+				//if string string 6
+				if (y > stringTop[6] && y < stringBot[6]) {
+					
+					if (x > string6Fret1.centerX - 10 && x < string6Fret1.centerX + 10) {
+						writeText(string6Fret1.centerX, string6Fret1.centerY);
+					}
+					else if (x > string6Fret2.centerX - 10 && x < string6Fret2.centerX + 10) {
+						writeText(string6Fret2.centerX, string6Fret2.centerY);
+					}
+					else if (x > string6Fret3.centerX - 10 && x < string6Fret3.centerX + 10) {
+						writeText(string6Fret3.centerX, string6Fret3.centerY);
+					}
+					else if (x > string6Fret4.centerX - 10 && x < string6Fret4.centerX + 10) {
+						writeText(string6Fret4.centerX, string6Fret4.centerY);
+					}
+					else if (x > string6Fret5.centerX - 10 && x < string6Fret5.centerX + 10) {
+						writeText(string6Fret5.centerX, string6Fret5.centerY);
+					}
+					else if (x > string6Fret6.centerX - 10 && x < string6Fret6.centerX + 10) {
+						writeText(string6Fret6.centerX, string6Fret6.centerY);
+					}
+					else if (x > string6Fret7.centerX - 10 && x < string6Fret7.centerX + 10) {
+						writeText(string6Fret7.centerX, string6Fret7.centerY);
+					}
+					else if (x > string6Fret8.centerX - 10 && x < string6Fret8.centerX + 10) {
+						writeText(string6Fret8.centerX, string6Fret8.centerY);
+					}
+					else if (x > string6Fret9.centerX - 10 && x < string6Fret9.centerX + 10) {
+						writeText(string6Fret9.centerX, string6Fret9.centerY);
+					}
+					else if (x > string6Fret10.centerX - 10 && x < string6Fret10.centerX + 10) {
+						writeText(string6Fret10.centerX, string6Fret10.centerY);
+					}
+					else if (x > string6Fret11.centerX - 10 && x < string6Fret11.centerX + 10) {
+						writeText(string6Fret11.centerX, string6Fret11.centerY);
+					}
+					else if (x > string6Fret12.centerX - 10 && x < string6Fret12.centerX + 10) {
+						writeText(string6Fret12.centerX, string6Fret12.centerY);
+					}
+					else if (x > string6Fret13.centerX - 10 && x < string6Fret13.centerX + 10) {
+						writeText(string6Fret13.centerX, string6Fret13.centerY);
+					}
+					else if (x > string6Fret14.centerX - 10 && x < string6Fret14.centerX + 10) {
+						writeText(string6Fret14.centerX, string6Fret14.centerY);
+					}
+					else if (x > string6Fret15.centerX - 10 && x < string6Fret15.centerX + 10) {
+						writeText(string6Fret15.centerX, string6Fret15.centerY);
+					}
+					else if (x > string6Fret16.centerX - 10 && x < string6Fret16.centerX + 10) {
+						writeText(string6Fret16.centerX, string6Fret16.centerY);
+					}
+					else if (x > string6Fret17.centerX - 10 && x < string6Fret17.centerX + 10) {
+						writeText(string6Fret17.centerX, string6Fret17.centerY);
+					}
+					else if (x > string6Fret18.centerX - 10 && x < string6Fret18.centerX + 10) {
+						writeText(string6Fret18.centerX, string6Fret18.centerY);
+					}
+					else if (x > 20 && x < 40) {
+						writeTextOpen(string6FretOpen.centerX, string6FretOpen.centerY);
+					}
+				}
+				
+			}
+			
+			//Draws the circles
+			function drawShapes(x,y,state) {
+				
+				if (state === ""){
+					ctx.beginPath();
+					ctx.fillStyle = "white";
+					ctx.rect(x - 18, y - 18, 36,36);
+					ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+					ctx.fillStyle = "black";
+					ctx.arc(x,y,18,0,2*Math.PI);
+					ctx.fill();
+					ctx.closePath();
+					return "black";
+				}
+				
+				else if (state === "black") {
+					ctx.beginPath();
+					ctx.fillStyle = "white";
+					ctx.rect(x - 18, y - 18, 36,36);
+					ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+					ctx.fillStyle = "blue";
+					ctx.arc(x,y,18,0,2*Math.PI);
+					ctx.fill();
+					ctx.closePath();
+					return "blue";
+				}
+				
+				else if (state === "blue") {
+					ctx.beginPath();
+					ctx.fillStyle = "white";
+					ctx.rect(x - 18, y - 18, 36,36);
+					ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+					ctx.fillStyle = "red";
+					ctx.arc(x,y,18,0,2*Math.PI);
+					ctx.fill();
+					ctx.closePath();
+					return "red";
+				}
+				
+				else if (state === "red") {
+					ctx.beginPath();
+					ctx.fillStyle = "white";
+					ctx.rect(x - 18, y - 18, 36,36);
+					ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+					ctx.fillStyle = "gray"
+					ctx.arc(x,y,18,0,2*Math.PI);
+					ctx.fill();
+					ctx.closePath();
+					return "gray";
+				}
+				
+				else if (state === "gray") {
+					ctx.beginPath();
+					ctx.fillStyle = "white";
+					ctx.rect(x - 18, y - 18, 36,36);
+					ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+					ctx.fillStyle = "black"
+					ctx.rect(x - 18, y - 18, 36,36);
+					ctx.fill();
+					ctx.closePath();
+					return "";
+				}
+			
+				
+				
+				
+			}
+			
+			//Draws open circles for open strings
+			function drawOpen(x,y) {
+				
+				ctx.beginPath();
+				ctx.fillStyle = "black";
+				ctx.arc(x,y,18,0,2*Math.PI);
+				ctx.fill();
+				ctx.closePath();
+				
+				ctx.beginPath();
+				ctx.fillStyle = "white";
+				ctx.arc(x,y,16,0,2*Math.PI);
+				ctx.fill();
+				ctx.closePath();
+				
+				ctx.fillStyle = "black";
+				
+			}
+			
+			//Writes the text
+			function writeText(x,y) {
+				
+				var entry = prompt("Enter text");
+				
+				ctx.fillStyle = "white";
+				ctx.textAlign = "center";
+				
+				if (entry.length  === 1) {
+					ctx.font="Bold 30px Arial";
+						if (entry != null) {
+						ctx.fillText(entry, x, y+11);
+					}
+				}
+				else if (entry.length > 1){
+					ctx.font="Bold 21px Arial";
+						if (entry != null) {
+						ctx.fillText(entry, x, y+7);
+					}
+				}
+				
+			}
+			
+			function writeTextOpen(x,y) {
+				
+				var entry = prompt("Enter text");
+				
+				ctx.fillStyle = "black";
+				ctx.textAlign = "center";
+				
+				if (entry.length  === 1) {
+					ctx.font="Bold 30px Arial";
+						if (entry != null) {
+						ctx.fillText(entry, x, y+11);
+					}
+				}
+				else if (entry.length > 1){
+					ctx.font="Bold 21px Arial";
+						if (entry != null) {
+						ctx.fillText(entry, x, y+7);
+					}
+				}
+			}
+			
+			function clearInput(x) {
+				x.value = "";
+			}
+			
+			function showTitle() {
+				var t = document.getElementById("theTitle").value;
+				
+				ctx.textAlign = "left";
+				ctx.font = "28px Arial";
+				ctx.fillStyle = "black";
+				ctx.fillText(t,30,28);
+			}
+			
+			
+		</script>
+		
+	</body>
+</html>

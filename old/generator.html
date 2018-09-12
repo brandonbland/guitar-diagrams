@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Scale Diagram Generator</title>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	<style>
+		body {
+			//margin: 0px;
+			background-color: gainsboro;
+		}
+		
+		canvas {
+			background-color: white;
+			
+		}
+		
+		.canvas {
+			float: left;
+			margin-right: 10px;
+		}
+		
+		h1, h2 {
+			margin: 5px;
+		}
+	</style>
+	
+	
+	
+  </head>
+  <body>
+		
+		<h1>Scale Diagram Generator </h1>
+		<div class="canvas">
+			<canvas id="scale" width="440" height="400">Canvas not supported</canvas>
+		</div>
+		
+		
+		<div>
+			<p><span id="snglClick"></span></p>
+			
+			
+			<input type="text" id="theTitle" onfocus="clearInput(this)"></input>
+			<button onClick="showTitle()">Show Title</button><br />
+			
+			<input type="text" id="theSubTitle" onfocus="clearInput(this)"></input>
+			<button onClick="showSubTitle()">Show Subtitle</button><br />
+			
+			<h2>Current mode: <span id="mode">Plot</span> <button onClick="switchMode()">Switch Modes</button></h2>
+			<button onClick="reset();">Reset Canvas</button><br />
+			<p id="variable"></p>
+		</div>
+		
+		<script>
+			
+			var ctx = document.getElementById("scale").getContext("2d");
+			
+			//Position constructor
+			function position(x, y, state) {
+				this.centerX = x;
+				this.centerY = y;
+				this.state = state;
+			}
+			
+			//Define positions
+			var string1Fret1 = new position(70, 100, "");
+			var string2Fret1 = new position(70, 150, "");
+			var string3Fret1 = new position(70, 200, "");
+			var string4Fret1 = new position(70, 250, "");
+			var string5Fret1 = new position(70, 300, "");
+			var string6Fret1 = new position(70, 350, "");
+			
+			var string1Fret2 = new position(130, 100, "");
+			var string2Fret2 = new position(130, 150, "");
+			var string3Fret2 = new position(130, 200, "");
+			var string4Fret2 = new position(130, 250, "");
+			var string5Fret2 = new position(130, 300, "");
+			var string6Fret2 = new position(130, 350, "");
+			
+			var string1Fret3 = new position(190, 100, "");
+			var string2Fret3 = new position(190, 150, "");
+			var string3Fret3 = new position(190, 200, "");
+			var string4Fret3 = new position(190, 250, "");
+			var string5Fret3 = new position(190, 300, "");
+			var string6Fret3 = new position(190, 350, "");
+			
+			var string1Fret4 = new position(250, 100, "");
+			var string2Fret4 = new position(250, 150, "");
+			var string3Fret4 = new position(250, 200, "");
+			var string4Fret4 = new position(250, 250, "");
+			var string5Fret4 = new position(250, 300, "");
+			var string6Fret4 = new position(250, 350, "");
+			
+			var string1Fret5 = new position(310, 100, "");
+			var string2Fret5 = new position(310, 150, "");
+			var string3Fret5 = new position(310, 200, "");
+			var string4Fret5 = new position(310, 250, "");
+			var string5Fret5 = new position(310, 300, "");
+			var string6Fret5 = new position(310, 350, "");
+			
+			var string1Fret6 = new position(370, 100, "");
+			var string2Fret6 = new position(370, 150, "");
+			var string3Fret6 = new position(370, 200, "");
+			var string4Fret6 = new position(370, 250, "");
+			var string5Fret6 = new position(370, 300, "");
+			var string6Fret6 = new position(370, 350, "");
+
+			reset(); //Draws lines, resets all position states to ""
+			
+			//function to draw lines, resets all position states to ""
+			function reset() {
+				
+				//Draw white background
+				ctx.fillStyle="white";
+				ctx.fillRect(0,0,440,400);
+				
+				//Set up path
+				ctx.beginPath();
+				ctx.lineWidth="2";
+				ctx.strokeStyle="black";
+				
+				//Strings
+				ctx.moveTo(40,100);
+				ctx.lineTo(400,100);
+				
+				ctx.moveTo(40,150);
+				ctx.lineTo(400,150);
+				
+				ctx.moveTo(40,200);
+				ctx.lineTo(400,200);
+				ctx.closePath(); 
+				ctx.stroke();
+				
+				ctx.beginPath();
+				ctx.lineWidth="3";
+				ctx.moveTo(40,250);
+				ctx.lineTo(400,250);
+				ctx.closePath(); 
+				ctx.stroke();
+				
+				ctx.beginPath();
+				ctx.lineWidth="5";
+				ctx.moveTo(40,300);
+				ctx.lineTo(400,300);
+				ctx.closePath(); 
+				ctx.stroke();
+				
+				ctx.beginPath();
+				ctx.lineWidth="7";
+				ctx.moveTo(40,350)
+				ctx.lineTo(400,350);
+				ctx.closePath(); 
+				ctx.stroke();
+				
+				//Frets
+				ctx.beginPath();
+				ctx.lineWidth="2";
+				ctx.moveTo(40,100);
+				ctx.lineTo(40,353);
+				
+				ctx.moveTo(100,100);
+				ctx.lineTo(100,350);
+				
+				ctx.moveTo(160,100);
+				ctx.lineTo(160,350);
+				
+				ctx.moveTo(220,100);
+				ctx.lineTo(220,350);
+				
+				ctx.moveTo(280,100);
+				ctx.lineTo(280,350);
+				
+				ctx.moveTo(340,100);
+				ctx.lineTo(340,350);
+				
+				ctx.moveTo(400,100);
+				ctx.lineTo(400,353);
+				
+				//Close it, draw it
+				ctx.closePath(); 
+				ctx.stroke(); 
+				
+				//Reset all position states 
+				string1Fret1.state = "";
+				string2Fret1.state = "";
+				string3Fret1.state = "";
+				string4Fret1.state = "";
+				string5Fret1.state = "";
+				string6Fret1.state = "";
+
+				string1Fret2.state  = "";
+				string2Fret2.state  = "";
+				string3Fret2.state  = "";
+				string4Fret2.state  = "";
+				string5Fret2.state  = "";
+				string6Fret2.state  = "";
+
+				string1Fret3.state  = "";
+				string2Fret3.state  = "";
+				string3Fret3.state  = "";
+				string4Fret3.state  = "";
+				string5Fret3.state  = "";
+				string6Fret3.state  = "";
+
+				string1Fret4.state = "";
+				string2Fret4.state = "";
+				string3Fret4.state = "";
+				string4Fret4.state = "";
+				string5Fret4.state = "";
+				string6Fret4.state = "";
+
+				string1Fret5.state = "";
+				string2Fret5.state = "";
+				string3Fret5.state = "";
+				string4Fret5.state = "";
+				string5Fret5.state = "";
+				string6Fret5.state = "";
+
+				string1Fret6.state = "";
+				string2Fret6.state = "";
+				string3Fret6.state = "";
+				string4Fret6.state = "";
+				string5Fret6.state = "";
+				string6Fret6.state = "";
+				
+				document.getElementById("theTitle").value = "Enter Title";
+				document.getElementById("theSubTitle").value = "Enter Subtitle";
+				document.getElementById("mode").innerHTML = "Plot";
+	
+			}
+			
+			//Switch Modes
+			function switchMode() {
+				
+				var mode = document.getElementById("mode").innerHTML;
+				
+				if (mode === "Plot") {
+					mode = "Text"
+					document.getElementById("mode").innerHTML = mode;
+				}
+				else if (mode === "Text") {
+					mode = "Plot"
+					document.getElementById("mode").innerHTML = mode;
+				}
+			}
+			
+			//Event listener to detect single clicks on canvas
+			ctx.canvas.addEventListener("click", function(event) {
+				
+				var mouseX, mouseY, mode;
+				
+				mode = document.getElementById("mode").innerHTML;
+				
+				//Determines mouse coordinates on the canvas
+				mouseX = event.clientX - ctx.canvas.offsetLeft;
+				mouseY = event.clientY - ctx.canvas.offsetTop;
+				
+				if (mode === "Plot") {
+					determinePosition(mouseX, mouseY);
+				}
+				else if (mode === "Text") {
+					determinePositionForText(mouseX, mouseY);
+				}
+				
+				//Shows click coordinates
+				//document.getElementById("snglClick").innerHTML = mouseX + " | " + mouseY;
+				
+			}, false);
+			
+			
+			//Determines position for plotting
+			function determinePosition(x,y) {
+				
+				//if string 1, increment per fret is 60 pixels
+				if (y > 90 && y < 110){
+					
+					if (x > 60 && x < 80) {
+						string1Fret1.state = drawShapes(string1Fret1.centerX, string1Fret1.centerY, string1Fret1.state);
+					}
+					else if (x > 120 && x < 140) {
+						string1Fret2.state = drawShapes(string1Fret2.centerX, string1Fret2.centerY, string1Fret2.state);
+					}
+					else if (x > 180 && x < 200) {
+						string1Fret3.state = drawShapes(string1Fret3.centerX, string1Fret3.centerY, string1Fret3.state);
+					}
+					else if (x > 240 && x < 260) {
+						string1Fret4.state = drawShapes(string1Fret4.centerX, string1Fret4.centerY, string1Fret4.state);
+					}
+					else if (x > 300 && x < 320) {
+						string1Fret5.state = drawShapes(string1Fret5.centerX, string1Fret5.centerY, string1Fret5.state);
+					}
+					else if (x > 360 && x < 380) {
+						string1Fret6.state = drawShapes(string1Fret6.centerX, string1Fret6.centerY, string1Fret6.state);
+					}
+				}
+				
+				//if string 2, increment per fret is 60 pixels
+				else if (y > 140 && y < 160){
+					
+					if (x > 60 && x < 80) {
+						string2Fret1.state = drawShapes(string2Fret1.centerX, string2Fret1.centerY, string2Fret1.state);
+					}
+					else if (x > 120 && x < 140) {
+						string2Fret2.state = drawShapes(string2Fret2.centerX, string2Fret2.centerY, string2Fret2.state);
+					}
+					else if (x > 180 && x < 200) {
+						string2Fret3.state = drawShapes(string2Fret3.centerX, string2Fret3.centerY, string2Fret3.state);
+					}
+					else if (x > 240 && x < 260) {
+						string2Fret4.state = drawShapes(string2Fret4.centerX, string2Fret4.centerY, string2Fret4.state);
+					}
+					else if (x > 300 && x < 320) {
+						string2Fret5.state = drawShapes(string2Fret5.centerX, string2Fret5.centerY, string2Fret5.state);
+					}
+					else if (x > 360 && x < 380) {
+						string2Fret6.state = drawShapes(string2Fret6.centerX, string2Fret6.centerY, string2Fret6.state);
+					}
+				}
+				
+				//if string 3, increment per fret is 60 pixels
+				else if (y > 190 && y < 210){
+					
+					if (x > 60 && x < 80) {
+						string3Fret1.state = drawShapes(string3Fret1.centerX, string3Fret1.centerY, string3Fret1.state);
+					}
+					else if (x > 120 && x < 140) {
+						string3Fret2.state = drawShapes(string3Fret2.centerX, string3Fret2.centerY, string3Fret2.state);
+					}
+					else if (x > 180 && x < 200) {
+						string3Fret3.state = drawShapes(string3Fret3.centerX, string3Fret3.centerY, string3Fret3.state);
+					}
+					else if (x > 240 && x < 260) {
+						string3Fret4.state = drawShapes(string3Fret4.centerX, string3Fret4.centerY, string3Fret4.state);
+					}
+					else if (x > 300 && x < 320) {
+						string3Fret5.state = drawShapes(string3Fret5.centerX, string3Fret5.centerY, string3Fret5.state);
+					}
+					else if (x > 360 && x < 380) {
+						string3Fret6.state = drawShapes(string3Fret6.centerX, string3Fret6.centerY, string3Fret6.state);
+					}
+				}
+				
+				//if string 4, increment per fret is 60 pixels
+				else if (y > 240 && y < 260){
+					
+					if (x > 60 && x < 80) {
+						string4Fret1.state = drawShapes(string4Fret1.centerX, string4Fret1.centerY, string4Fret1.state);
+					}
+					else if (x > 120 && x < 140) {
+						string4Fret2.state = drawShapes(string4Fret2.centerX, string4Fret2.centerY, string4Fret2.state);
+					}
+					else if (x > 180 && x < 200) {
+						string4Fret3.state = drawShapes(string4Fret3.centerX, string4Fret3.centerY, string4Fret3.state);
+					}
+					else if (x > 240 && x < 260) {
+						string4Fret4.state = drawShapes(string4Fret4.centerX, string4Fret4.centerY, string4Fret4.state);
+					}
+					else if (x > 300 && x < 320) {
+						string4Fret5.state = drawShapes(string4Fret5.centerX, string4Fret5.centerY, string4Fret5.state);
+					}
+					else if (x > 360 && x < 380) {
+						string4Fret6.state = drawShapes(string4Fret6.centerX, string4Fret6.centerY, string4Fret6.state);
+					}
+				}
+				
+				//if string 5, increment per fret is 60 pixels
+				else if (y > 290 && y < 310){
+					
+					if (x > 60 && x < 80) {
+						string5Fret1.state = drawShapes(string5Fret1.centerX, string5Fret1.centerY, string5Fret1.state);
+					}
+					else if (x > 120 && x < 140) {
+						string5Fret2.state = drawShapes(string5Fret2.centerX, string5Fret2.centerY, string5Fret2.state);
+					}
+					else if (x > 180 && x < 200) {
+						string5Fret3.state = drawShapes(string5Fret3.centerX, string5Fret3.centerY, string5Fret3.state);
+					}
+					else if (x > 240 && x < 260) {
+						string5Fret4.state = drawShapes(string5Fret4.centerX, string5Fret4.centerY, string5Fret4.state);
+					}
+					else if (x > 300 && x < 320) {
+						string5Fret5.state = drawShapes(string5Fret5.centerX, string5Fret5.centerY, string5Fret5.state);
+					}
+					else if (x > 360 && x < 380) {
+						string5Fret6.state = drawShapes(string5Fret6.centerX, string5Fret6.centerY, string5Fret6.state);
+					}
+				}
+				
+				//if string 6, increment per fret is 60 pixels
+				else if (y > 340 && y < 360){
+					
+					if (x > 60 && x < 80) {
+						string6Fret1.state = drawShapes(string6Fret1.centerX, string6Fret1.centerY, string6Fret1.state);
+					}
+					else if (x > 120 && x < 140) {
+						string6Fret2.state = drawShapes(string6Fret2.centerX, string6Fret2.centerY, string6Fret2.state);
+					}
+					else if (x > 180 && x < 200) {
+						string6Fret3.state = drawShapes(string6Fret3.centerX, string6Fret3.centerY, string6Fret3.state);
+					}
+					else if (x > 240 && x < 260) {
+						string6Fret4.state = drawShapes(string6Fret4.centerX, string6Fret4.centerY, string6Fret4.state);
+					}
+					else if (x > 300 && x < 320) {
+						string6Fret5.state = drawShapes(string6Fret5.centerX, string6Fret5.centerY, string6Fret5.state);
+					}
+					else if (x > 360 && x < 380) {
+						string6Fret6.state = drawShapes(string6Fret6.centerX, string6Fret6.centerY, string6Fret6.state);
+					}
+				}
+				
+			}
+			
+			//Draws the circles
+			function drawShapes(x,y,state) {
+				
+				if (state === ""){
+					ctx.beginPath();
+					ctx.fillStyle = "white";
+					ctx.rect(x - 20, y - 20, 40,40);
+					ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+					ctx.fillStyle = "black";
+					ctx.arc(x,y,20,0,2*Math.PI)
+					ctx.fill();
+					ctx.closePath();
+					return "black";
+				}
+				
+				else if (state === "black") {
+					ctx.beginPath();
+					ctx.fillStyle = "white";
+					ctx.rect(x - 20, y - 20, 40,40);
+					ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+					ctx.fillStyle = "blue";
+					ctx.arc(x,y,20,0,2*Math.PI)
+					ctx.fill();
+					ctx.closePath();
+					return "blue";
+				}
+				
+				else if (state === "blue") {
+					ctx.beginPath();
+					ctx.fillStyle = "white";
+					ctx.rect(x - 20, y - 20, 40,40);
+					ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+					ctx.fillStyle = "red";
+					ctx.arc(x,y,20,0,2*Math.PI);
+					ctx.fill();
+					ctx.closePath();
+					return "red";
+				}
+				
+				else if (state === "red") {
+					ctx.beginPath();
+					ctx.fillStyle = "white";
+					ctx.rect(x - 20, y - 20, 40,40);
+					ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+					ctx.fillStyle = "gray"
+					ctx.arc(x,y,20,0,2*Math.PI);
+					ctx.fill();
+					ctx.closePath();
+					return "gray";
+				}
+				
+				else if (state === "gray") {
+					ctx.beginPath();
+					ctx.fillStyle = "white";
+					ctx.rect(x - 20, y - 20, 40,40);
+					ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+					ctx.fillStyle = "black"
+					ctx.rect(x - 20, y - 20, 40,40);
+					ctx.fill();
+					ctx.closePath();
+					return "";
+				}
+				
+				
+				
+			}
+			
+			//Determines position for text
+			function determinePositionForText(x,y) {
+				
+				//if string 1, increment per fret is 60 pixels
+				if (y > 90 && y < 110){
+					
+					if (x > 60 && x < 80) {
+						writeText(string1Fret1.centerX, string1Fret1.centerY);
+					}
+					else if (x > 120 && x < 140) {
+						writeText(string1Fret2.centerX, string1Fret2.centerY);
+					}
+					else if (x > 180 && x < 200) {
+						writeText(string1Fret3.centerX, string1Fret3.centerY);
+					}
+					else if (x > 240 && x < 260) {
+						writeText(string1Fret4.centerX, string1Fret4.centerY);
+					}
+					else if (x > 300 && x < 320) {
+						writeText(string1Fret5.centerX, string1Fret5.centerY);
+					}
+					else if (x > 360 && x < 380) {
+						writeText(string1Fret6.centerX, string1Fret6.centerY);
+					}
+				}
+				
+				//if string 2, increment per fret is 60 pixels
+				else if (y > 140 && y < 160){
+					
+					if (x > 60 && x < 80) {
+						writeText(string2Fret1.centerX, string2Fret1.centerY);
+					}
+					else if (x > 120 && x < 140) {
+						writeText(string2Fret2.centerX, string2Fret2.centerY);
+					}
+					else if (x > 180 && x < 200) {
+						writeText(string2Fret3.centerX, string2Fret3.centerY);
+					}
+					else if (x > 240 && x < 260) {
+						writeText(string2Fret4.centerX, string2Fret4.centerY);
+					}
+					else if (x > 300 && x < 320) {
+						writeText(string2Fret5.centerX, string2Fret5.centerY);
+					}
+					else if (x > 360 && x < 380) {
+						writeText(string2Fret6.centerX, string2Fret6.centerY);
+					}
+				}
+				
+				//if string 3, increment per fret is 60 pixels
+				else if (y > 190 && y < 210){
+					
+					if (x > 60 && x < 80) {
+						writeText(string3Fret1.centerX, string3Fret1.centerY);
+					}
+					else if (x > 120 && x < 140) {
+						writeText(string3Fret2.centerX, string3Fret2.centerY);
+					}
+					else if (x > 180 && x < 200) {
+						writeText(string3Fret3.centerX, string3Fret3.centerY);
+					}
+					else if (x > 240 && x < 260) {
+						writeText(string3Fret4.centerX, string3Fret4.centerY);
+					}
+					else if (x > 300 && x < 320) {
+						writeText(string3Fret5.centerX, string3Fret5.centerY);
+					}
+					else if (x > 360 && x < 380) {
+						writeText(string3Fret6.centerX, string3Fret6.centerY);
+					}
+				}
+				
+				//if string 4, increment per fret is 60 pixels
+				else if (y > 240 && y < 260){
+					
+					if (x > 60 && x < 80) {
+						writeText(string4Fret1.centerX, string4Fret1.centerY);
+					}
+					else if (x > 120 && x < 140) {
+						writeText(string4Fret2.centerX, string4Fret2.centerY);
+					}
+					else if (x > 180 && x < 200) {
+						writeText(string4Fret3.centerX, string4Fret3.centerY);
+					}
+					else if (x > 240 && x < 260) {
+						writeText(string4Fret4.centerX, string4Fret4.centerY);
+					}
+					else if (x > 300 && x < 320) {
+						writeText(string4Fret5.centerX, string4Fret5.centerY);
+					}
+					else if (x > 360 && x < 380) {
+						writeText(string4Fret6.centerX, string4Fret6.centerY);
+					}
+				}
+				
+				//if string 5, increment per fret is 60 pixels
+				else if (y > 290 && y < 310){
+					
+					if (x > 60 && x < 80) {
+						writeText(string5Fret1.centerX, string5Fret1.centerY);
+					}
+					else if (x > 120 && x < 140) {
+						writeText(string5Fret2.centerX, string5Fret2.centerY);
+					}
+					else if (x > 180 && x < 200) {
+						writeText(string5Fret3.centerX, string5Fret3.centerY);
+					}
+					else if (x > 240 && x < 260) {
+						writeText(string5Fret4.centerX, string5Fret4.centerY);
+					}
+					else if (x > 300 && x < 320) {
+						writeText(string5Fret5.centerX, string5Fret5.centerY);
+					}
+					else if (x > 360 && x < 380) {
+						writeText(string5Fret6.centerX, string5Fret6.centerY);
+					}
+				}
+				
+				//if string 6, increment per fret is 60 pixels
+				else if (y > 340 && y < 360){
+					
+					if (x > 60 && x < 80) {
+						writeText(string6Fret1.centerX, string6Fret1.centerY);
+					}
+					else if (x > 120 && x < 140) {
+						writeText(string6Fret2.centerX, string6Fret2.centerY);
+					}
+					else if (x > 180 && x < 200) {
+						writeText(string6Fret3.centerX, string6Fret3.centerY);
+					}
+					else if (x > 240 && x < 260) {
+						writeText(string6Fret4.centerX, string6Fret4.centerY);
+					}
+					else if (x > 300 && x < 320) {
+						writeText(string6Fret5.centerX, string6Fret5.centerY);
+					}
+					else if (x > 360 && x < 380) {
+						writeText(string6Fret6.centerX, string6Fret6.centerY);
+					}
+				}
+				
+			}
+			
+			//Writes the text
+			function writeText(x,y) {
+				
+				var entry = prompt("Enter text");
+				
+				ctx.fillStyle = "white";
+				ctx.textAlign = "center";
+				
+				if (entry.length  === 1) {
+					ctx.font="Bold 30px Arial";
+						if (entry != null) {
+						ctx.fillText(entry, x, y+11);
+					}
+				}
+				else if (entry.length > 1){
+					ctx.font="Bold 21px Arial";
+						if (entry != null) {
+						ctx.fillText(entry, x, y+8);
+					}
+				}
+				
+			}
+			
+			
+			function clearInput(x) {
+				x.value = "";
+			}
+			
+			
+			function showTitle() {
+				var t = document.getElementById("theTitle").value;
+				
+				ctx.textAlign = "left";
+				ctx.font = "32px Arial";
+				ctx.fillStyle = "black";
+				ctx.fillText(t,30,40);
+			}
+			
+			function showSubTitle() {
+				var t = document.getElementById("theSubTitle").value;
+				
+				ctx.textAlign = "left";
+				ctx.font = "20px Arial";
+				ctx.fillStyle = "black";
+				ctx.fillText(t,30,65);
+			}
+			
+	</script>
+	
+		
+		
+  </body>
+</html>

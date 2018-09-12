@@ -1,0 +1,19 @@
+{
+  "name": "guitar-diagrams",
+  "version": "1.0.0",
+  "description": "",
+  "main": "chords.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://brandonlb@bitbucket.org/brandonlb/guitar-diagrams.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/brandonlb/guitar-diagrams#readme",
+  "dependencies": {
+    "bootbox": "^4.4.0"
+  }
+}
