@@ -50,7 +50,8 @@ let
   title = '',
   brand = 'GuitarLearningTools.com',
   fontForBrand = 'Verdana',
-  fontSizeForBrand = 16
+  fontSizeForBrand = 16,
+  barreLineWidth = 15
   ;//end settings
 
 
@@ -307,6 +308,48 @@ if (leftNut) {
   ctx.closePath();
 }
 
+
+// draw line 1-6, fret 1
+function draw16() {
+  ctx.beginPath();
+  // ctx.lineCap = nutLineCap;
+  ctx.lineWidth = barreLineWidth;
+  ctx.moveTo(x1y1.x + 15, x1y1.y);
+  ctx.lineTo(x6y1.x - 15, x6y1.y);
+  ctx.stroke();
+  ctx.closePath();}
+
+// draw line 1-5, fret 1
+function draw15() {
+  ctx.beginPath();
+  // ctx.lineCap = nutLineCap;
+  ctx.lineWidth = barreLineWidth;
+  ctx.moveTo(x2y1.x + 15, x2y1.y);
+  ctx.lineTo(x6y1.x - 15, x6y1.y);
+  ctx.stroke();
+  ctx.closePath();}
+
+// draw line 1-4, fret 1
+function draw14() {
+  ctx.beginPath();
+  // ctx.lineCap = nutLineCap;
+  ctx.lineWidth = barreLineWidth;
+  ctx.moveTo(x3y1.x + 15, x3y1.y);
+  ctx.lineTo(x6y1.x - 15, x6y1.y);
+  ctx.stroke();
+  ctx.closePath();}
+
+// draw line 1-3, fret 1
+function draw24Fret3() {
+  ctx.beginPath();
+  // ctx.lineCap = nutLineCap;
+  ctx.lineWidth = barreLineWidth;
+  ctx.moveTo(x3y3.x + 15, x3y3.y);
+  ctx.lineTo(x5y3.x - 15, x5y3.y);
+  ctx.stroke();
+  ctx.closePath();}
+
+
 //set all states to blank for reset function
 //x0s
 x0y1.state = '';
@@ -428,6 +471,22 @@ function getMousePos(canvas, e) {
     drawTopNut();
   });
 
+  $('#draw16').click(function() {
+    draw16();
+  });
+
+  $('#draw15').click(function() {
+    draw15();
+  });
+
+  $('#draw14').click(function() {
+    draw14();
+  });
+
+  $('#draw24Fret3').click(function() {
+    draw24Fret3();
+  });
+
 
   //listen for clicks on save button
   $('#downloadLink').click(function(){
@@ -453,7 +512,7 @@ function printTitle(t) {
   ctx.closePath();
 
   $('#chordTitle').val('').blur();
-  
+
 }
 
 function clearTitle() {
@@ -587,7 +646,7 @@ function leftSideNumber(x,y, state) {
             ctx.rect(x - (openWhiteRectangleWidth/2), y - (openWhiteRectangleHeight/2), openWhiteRectangleWidth, openWhiteRectangleHeight);
             ctx.fill();
             ctx.closePath();
-  
+
             ctx.beginPath();
             ctx.fillStyle = 'black';
             ctx.font = fontSizeForOpenShapes + 'px ' + fontForOpenShapes;
