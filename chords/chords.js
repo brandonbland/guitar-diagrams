@@ -369,6 +369,16 @@ function draw13Fret2() {
   ctx.stroke();
   ctx.closePath();}
 
+// draw line 2-3, fret 2
+function draw23Fret2() {
+  ctx.beginPath();
+  // ctx.lineCap = nutLineCap;
+  ctx.lineWidth = barreLineWidth;
+  ctx.moveTo(x4y2.x + 15, x4y2.y);
+  ctx.lineTo(x5y2.x - 15, x5y2.y);
+  ctx.stroke();
+  ctx.closePath();}
+
 
 //set all states to blank for reset function
 //x0s
@@ -513,6 +523,10 @@ function getMousePos(canvas, e) {
 
   $('#draw13Fret2').click(function() {
     draw13Fret2();
+  });
+
+  $('#draw23Fret2').click(function() {
+    draw23Fret2();
   });
 
 
