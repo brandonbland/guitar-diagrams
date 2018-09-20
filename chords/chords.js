@@ -339,6 +339,16 @@ function draw14() {
   ctx.stroke();
   ctx.closePath();}
 
+// draw line 1-2, fret 1
+function draw12() {
+  ctx.beginPath();
+  // ctx.lineCap = nutLineCap;
+  ctx.lineWidth = barreLineWidth;
+  ctx.moveTo(x5y1.x + 15, x5y1.y);
+  ctx.lineTo(x6y1.x - 15, x6y1.y);
+  ctx.stroke();
+  ctx.closePath();}
+
 // draw line 2-4, fret 3
 function draw24Fret3() {
   ctx.beginPath();
@@ -491,6 +501,10 @@ function getMousePos(canvas, e) {
 
   $('#draw14').click(function() {
     draw14();
+  });
+
+  $('#draw12').click(function() {
+    draw12();
   });
 
   $('#draw24Fret3').click(function() {
