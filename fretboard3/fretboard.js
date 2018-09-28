@@ -747,6 +747,23 @@ function drawShapes(x,y,state) {
     ctx.closePath();
 
     ctx.beginPath();
+    ctx.fillStyle = "#909090";
+    // ctx.rect(x - (whiteRectangleWidth/2) + 1, y -(whiteRectangleHeight/2) + 1, whiteRectangleWidth-2, whiteRectangleHeight-1);
+    ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+    return "grey";
+  }
+  /************************************************************/
+
+  if (state === "grey") {
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight);
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
     ctx.fillStyle = "black";
     ctx.rect(x - (whiteRectangleWidth/2) + 1, y -(whiteRectangleHeight/2) + 1, whiteRectangleWidth-2, whiteRectangleHeight-1);
     // ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
