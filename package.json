@@ -15,5 +15,9 @@
   "homepage": "https://bitbucket.org/brandonlb/guitar-diagrams#readme",
   "dependencies": {
     "bootbox": "^4.4.0"
+  },
+  "devDependencies": {
+    "express": "^4.16.4",
+    "nodemon": "^1.18.9"
   }
 }
