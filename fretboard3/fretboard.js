@@ -45,7 +45,7 @@ var
   fontSizeForSubtitle = aboveTopNutYRectPosition * .3, //in pixels
   fontForTitle = 'Arial',
   leftSideTextMarker = marginLeft/3, //adjust as needed for text on left side
-  singleDigitNoteTextSize = (distanceBetweenVerticalLines * circleSizePercentage) *2,
+  singleDigitNoteTextSize = (distanceBetweenVerticalLines * circleSizePercentage) *1.9,
   doubleDigitNoteTextSize = singleDigitNoteTextSize * .7,
   fontForFrets = 'Times'
   title = '',
@@ -1080,13 +1080,13 @@ function writeText(x,y) {
           //drawShapes(x,y,'');
           ctx.fillStyle = "white";
           ctx.font = singleDigitNoteTextSize + 'px ' + fontForFrets;
-          ctx.fillText(entry, x, y);
+          ctx.fillText(entry, x, y+2);
         }
         else if (entry.length === 2){
           //drawShapes(x,y,'');
           ctx.fillStyle = "white";
           ctx.font = doubleDigitNoteTextSize + 'px ' + fontForFrets;
-          ctx.fillText(entry, x, y);
+          ctx.fillText(entry, x, y+1);
         }
         else if (entry > 2) {
           this.modal('hide');
@@ -1114,19 +1114,20 @@ function writeOpenText(x,y) {
       var entry = result;
       ctx.textAlign = "center";
       ctx.textBaseline = 'middle';
+      
 
       if (entry !== null) {
         if (entry.length  === 1) {
           //drawShapes(x,y,'');
           ctx.fillStyle = "black";
           ctx.font = singleDigitNoteTextSize + 'px ' + fontForFrets;
-          ctx.fillText(entry, x, y);
+          ctx.fillText(entry, x, y+2);
         }
         else if (entry.length === 2){
           //drawShapes(x,y,'');
           ctx.fillStyle = "black";
           ctx.font = doubleDigitNoteTextSize + 'px ' + fontForFrets;
-          ctx.fillText(entry, x, y);
+          ctx.fillText(entry, x, y+1);
         }
         else if (entry > 2) {
           this.modal('hide');
