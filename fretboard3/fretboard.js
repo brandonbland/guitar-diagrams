@@ -358,7 +358,7 @@ ctx.arc(markerX[12], marginTop + (guitarHeight*.72), fretMarkerDotSize, 0,2*Math
 ctx.fill();
 ctx.closePath();
 
-//draw vertical lines
+//draw vertical lines and numbers
 for (i = 1; i <= numberVerticalLines; i++) {
   ctx.beginPath();
   ctx.lineCap = lineCap;
@@ -368,6 +368,12 @@ for (i = 1; i <= numberVerticalLines; i++) {
   ctx.stroke();
   ctx.closePath();
   x += distanceBetweenVerticalLines;
+  if (i < 19) {
+    ctx.fillStyle = "black";
+    ctx.font = '15px Arial';
+    ctx.fillText(i, x-25, 240);
+    }
+
 }
 
 //draw horizontal lines
@@ -382,14 +388,16 @@ for (i = 1; i <= numberHorzontalLines; i++) {
   y += distanceBetweenHorizontalLines
 }
 
+
+
 //write branding
-ctx.beginPath();
-ctx.fillStyle = 'grey';
-ctx.font = fontSizeForBrand + 'px ' + fontForBrand;
-ctx.textAlign = 'center';
-ctx.textBaseline = 'middle';
-ctx.fillText(brand, canvasWidth/2, canvasHeight-15, canvasWidth);
-ctx.closePath();
+// ctx.beginPath();
+// ctx.fillStyle = 'grey';
+// ctx.font = fontSizeForBrand + 'px ' + fontForBrand;
+// ctx.textAlign = 'center';
+// ctx.textBaseline = 'middle';
+// ctx.fillText(brand, canvasWidth/2, canvasHeight-15, canvasWidth);
+// ctx.closePath();
 
 
 
@@ -667,7 +675,7 @@ function printTitle(t) {
   ctx.fillStyle = 'black';
   ctx.font = fontSizeForTitle + 'px ' + fontForTitle;
   ctx.textAlign = 'left';
-  ctx.textBaseline = 'left';
+  ctx.textBaseline = 'middle';
   ctx.fillText(t, canvasWidth*.05, (aboveTopNutYRectPosition/2)-5, canvasWidth);
   ctx.closePath();
 
@@ -700,7 +708,7 @@ function printSubtitle(t) {
   ctx.fillStyle = 'black';
   ctx.font = fontSizeForSubtitle + 'px ' + fontForTitle;
   ctx.textAlign = 'left';
-  ctx.textBaseline = 'left';
+  ctx.textBaseline = 'middle';
   ctx.fillText(t, canvasWidth*.05, aboveTopNutYRectPosition-5, canvasWidth);
   ctx.closePath();
 
