@@ -550,7 +550,7 @@ function printTitle(t) {
   ctx.font = fontSizeForTitle + 'px ' + fontForTitle;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(t, canvasWidth/2, aboveTopNutYRectPosition/2, canvasWidth);
+  ctx.fillText(t, canvasWidth/2, aboveTopNutYRectPosition/2, canvasWidth-10);
   ctx.closePath();
 
   $('#chordTitle').val('').blur();
