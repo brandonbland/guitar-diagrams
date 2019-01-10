@@ -788,7 +788,7 @@ function drawShapes(x,y,state) {
     ctx.closePath();
 
     ctx.beginPath();
-    ctx.fillStyle = "#909090";
+    ctx.fillStyle = "#bcbcbc";
     // ctx.rect(x - (whiteRectangleWidth/2) + 1, y -(whiteRectangleHeight/2) + 1, whiteRectangleWidth-2, whiteRectangleHeight-1);
     ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
     ctx.fill();
@@ -847,8 +847,25 @@ function drawShapes(x,y,state) {
     return "square-blue";
   }
 
+    // Draw gray square
+    if (state === "square-blue") {
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight);
+      ctx.fill();
+      ctx.closePath();
+  
+      ctx.beginPath();
+      ctx.fillStyle = "#bcbcbc";
+      ctx.rect(x - (whiteRectangleWidth/2) + 1, y -(whiteRectangleHeight/2) + 1, whiteRectangleWidth-2, whiteRectangleHeight-1);
+      // ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
+      ctx.fill();
+      ctx.closePath();
+      return "square-gray";
+    }
+
   // Draw back to normal
-  if (state === "square-blue") {
+  if (state === "square-gray") {
     ctx.beginPath();
     ctx.fillStyle = "white";
     ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight+1);
@@ -1007,8 +1024,32 @@ function drawOpenShapesAboveNut(x,y,state) {
     return "square-blue";
   }
 
+    // Draw gray square
+    if (state === "square-blue") {
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight);
+      ctx.fill();
+      ctx.closePath();
+  
+      ctx.beginPath();
+      ctx.fillStyle = "#bcbcbc";
+      ctx.rect(x - (whiteRectangleWidth/2) + 1, y -(whiteRectangleHeight/2) + 1, whiteRectangleWidth-2, whiteRectangleHeight-1);
+      // ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
+      ctx.fill();
+      ctx.closePath();
+  
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.rect(x - (whiteRectangleWidth/2) + 2, y -(whiteRectangleHeight/2) + 2, whiteRectangleWidth-4, whiteRectangleHeight-3);
+      // ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
+      ctx.fill();
+      ctx.closePath();
+      return "square-gray";
+    }
+
   // Clear all shapes
-  if (state === "square-blue") {
+  if (state === "square-gray") {
     ctx.beginPath();
     ctx.fillStyle = "white";
     ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight+1);
