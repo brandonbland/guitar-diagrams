@@ -763,21 +763,21 @@ function drawShapes(x,y,state) {
     return "circle-red";
   }
 
-    // Draw blue circle
-    if (state === 'circle-red') {
-      ctx.beginPath();
-      ctx.fillStyle = "white";
-      ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight);
-      ctx.fill();
-      ctx.closePath();
-  
-      ctx.beginPath();
-      ctx.fillStyle = "blue";
-      ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
-      ctx.fill();
-      ctx.closePath();
-      return "circle-blue";
-    }
+  // Draw blue circle
+  if (state === 'circle-red') {
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight);
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.fillStyle = "blue";
+    ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+    return "circle-blue";
+  }
 
   // Draw gray circle
   if (state === "circle-blue") {
@@ -788,7 +788,7 @@ function drawShapes(x,y,state) {
     ctx.closePath();
 
     ctx.beginPath();
-    ctx.fillStyle = "#bcbcbc";
+    ctx.fillStyle = "#e0c17f";
     // ctx.rect(x - (whiteRectangleWidth/2) + 1, y -(whiteRectangleHeight/2) + 1, whiteRectangleWidth-2, whiteRectangleHeight-1);
     ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
     ctx.fill();
@@ -856,7 +856,7 @@ function drawShapes(x,y,state) {
       ctx.closePath();
   
       ctx.beginPath();
-      ctx.fillStyle = "#bcbcbc";
+      ctx.fillStyle = "#e0c17f";
       ctx.rect(x - (whiteRectangleWidth/2) + 1, y -(whiteRectangleHeight/2) + 1, whiteRectangleWidth-2, whiteRectangleHeight-1);
       // ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
       ctx.fill();
@@ -930,30 +930,53 @@ function drawOpenShapesAboveNut(x,y,state) {
     return "circle-red";
   }
 
-    // Draw blue circle
-    if (state === 'circle-red') {
-      ctx.beginPath();
-      ctx.fillStyle = "white";
-      ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight);
-      ctx.fill();
-      ctx.closePath();
-  
-      ctx.beginPath();
-      ctx.fillStyle = "blue";
-      ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
-      ctx.fill();
-      ctx.closePath();
-  
-      ctx.beginPath();
-      ctx.fillStyle = "white";
-      ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage - 1),0,2*Math.PI);
-      ctx.fill();
-      ctx.closePath();
-      return "circle-blue";
-    }
+  // Draw blue circle
+  if (state === 'circle-red') {
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight);
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.fillStyle = "blue";
+    ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage - 1),0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+    return "circle-blue";
+  }
+
+  // Draw gray circle
+  if (state === 'circle-blue') {
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight);
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.fillStyle = "#e0c17f";
+    ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage - 1),0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
+    return "circle-gray";
+  }
+
   
   // Draw black square
-  if (state === "circle-blue") {
+  if (state === "circle-gray") {
     ctx.beginPath();
     ctx.fillStyle = "white";
     ctx.rect(x - (whiteRectangleWidth/2), y -(whiteRectangleHeight/2), whiteRectangleWidth, whiteRectangleHeight);
@@ -1033,7 +1056,7 @@ function drawOpenShapesAboveNut(x,y,state) {
       ctx.closePath();
   
       ctx.beginPath();
-      ctx.fillStyle = "#bcbcbc";
+      ctx.fillStyle = "#e0c17f";
       ctx.rect(x - (whiteRectangleWidth/2) + 1, y -(whiteRectangleHeight/2) + 1, whiteRectangleWidth-2, whiteRectangleHeight-1);
       // ctx.arc(x,y,(distanceBetweenVerticalLines * circleSizePercentage),0,2*Math.PI);
       ctx.fill();
